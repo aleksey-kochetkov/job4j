@@ -7,12 +7,12 @@ package ru.job4j;
 public class Calculate {
 
   /**
-   * Echoes the input value three times.
-   * @param value input string
+   * Returns a string consisting of triple "echo" plus parameter.
+   * @param name input string
    * @return resulting string
    */
-  public String echo(String value) {
-    return String.format("%s %s %s", value, value, value);
+  public String echo(String name) {
+    return "Echo, echo, echo: " + name;
   }
 
   /**
@@ -20,7 +20,6 @@ public class Calculate {
    * @param args args
    */
   public static void main(String[] args) {
-    Calculate calculate = new Calculate();
-    System.out.println(calculate.echo("Aah!"));
+    System.out.println("Hello, World!");
   }
 }

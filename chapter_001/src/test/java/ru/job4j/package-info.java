@@ -1,5 +1,5 @@
 /**
- * Package for calculate task.
+ * Package for calculator task.
  * This line demonstrates the description section in generated docs.
  * @author Aleksey Kochetkov
  * @version $Id$

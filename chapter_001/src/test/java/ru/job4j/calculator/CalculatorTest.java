@@ -1,4 +1,4 @@
-package ru.job4j.calculate;
+package ru.job4j.calculator;
 
 import static org.junit.Assert.assertThat;
 import static org.hamcrest.Matchers.is;

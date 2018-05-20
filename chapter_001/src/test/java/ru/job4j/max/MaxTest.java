@@ -19,4 +19,10 @@ public class MaxTest {
         Max max = new Max();
         assertEquals(4, max.max(4, 3));
     }
+
+    @Test
+    public void whenThreeArgsThen5() {
+        Max max = new Max();
+        assertEquals(5, max.max(-10, 5, 0));
+    }
 }

@@ -13,10 +13,11 @@ public class DummyBot {
      */
     public String answer(String question) {
         String answer = "Это ставит меня в тупик. Задайте другой вопрос.";
-        if (question.equals("Привет, Бот!"))
-          answer = "Привет, умник!";
-        else if (question.equals("Пока!"))
-          answer = "До скорой встречи!";
+        if (question.equals("Привет, Бот!")) {
+            answer = "Привет, умник!";
+        } else if (question.equals("Пока!")) {
+            answer = "До скорой встречи!";
+        }
 
         return answer;
     }

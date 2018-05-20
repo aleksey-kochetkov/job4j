@@ -40,5 +40,12 @@ public class PaintTest {
         Paint paint = new Paint();
         String result = paint.pyramid(4);
         System.out.println(result);
+        assertThat(result, is(
+            new StringJoiner(System.lineSeparator(), "", System.lineSeparator())
+                .add("   ^   ")
+                .add("  ^^^  ")
+                .add(" ^^^^^ ")
+                .add("^^^^^^^").toString()
+        ));
     }
 }

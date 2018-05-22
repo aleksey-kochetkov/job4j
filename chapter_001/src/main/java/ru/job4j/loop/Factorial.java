@@ -8,14 +8,22 @@ import com.sun.javaws.exceptions.InvalidArgumentException;
  */
 public class Factorial {
     public int calc(int n) {
+        int result;
+
+        // Я не понимаю, как можно обойтись без обработки отрицательных
+        // значений аргумента. На них факториал не существует. Но раз
+        // реализация с IllegalArgumentException не устроила, то сделаю
+        // возврат -1.
         if (n < 0) {
-            throw new IllegalArgumentException(
-                    String.format("%d < 0", n));
-        }
-        if (n == 0) {
-            return 1;
+            result = -1;
+        } else {
+            result = 1;
         }
 
-        return calc(n - 1) * n;
+        while (n > 0) {
+            result *= n--;
+        }
+
+        return result;
     }
 }

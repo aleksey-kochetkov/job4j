@@ -1,7 +1,7 @@
 package ru.job4j.array;
 
 import static org.junit.Assert.assertThat;
-import static org.hamcrest.core.Is.is;
+import static org.hamcrest.collection.IsArrayContainingInAnyOrder.arrayContainingInAnyOrder;
 import org.junit.Test;
 
 public class ArrayDuplicateTest {
@@ -11,7 +11,7 @@ public class ArrayDuplicateTest {
         ArrayDuplicate ad = new ArrayDuplicate();
         String[] input = {"Привет", "Мир", "Привет", "Супер", "Мир"};
         String[] expect = {"Привет", "Мир", "Супер"};
-        assertThat(ad.remove(input), is(expect));
+        assertThat(ad.remove(input), arrayContainingInAnyOrder(expect));
     }
 
     @Test
@@ -19,7 +19,7 @@ public class ArrayDuplicateTest {
         ArrayDuplicate ad = new ArrayDuplicate();
         String[] input = {"Element", "Element", "Element"};
         String[] expect = {"Element"};
-        assertThat(ad.remove(input), is(expect));
+        assertThat(ad.remove(input), arrayContainingInAnyOrder(expect));
     }
 
     @Test
@@ -27,6 +27,6 @@ public class ArrayDuplicateTest {
         ArrayDuplicate ad = new ArrayDuplicate();
         String[] input = {"One", "Element", "One", "Element", "Element", "Element", "Element"};
         String[] expect = {"One", "Element"};
-        assertThat(ad.remove(input), is(expect));
+        assertThat(ad.remove(input), arrayContainingInAnyOrder(expect));
     }
 }

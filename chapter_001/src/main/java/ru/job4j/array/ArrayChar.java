@@ -17,13 +17,11 @@ public class ArrayChar {
      */
     public boolean startsWith(String prefix) {
         char[] value = prefix.toCharArray();
-        boolean result = value.length <= this.data.length;
-        if (result) {
-            for (int i = 0; i < value.length; i++) {
-                if (value[i] != this.data[i]) {
-                    result = false;
-                    break;
-                }
+        boolean result = true;
+        for (int i = 0; i < value.length; i++) {
+            if (value[i] != this.data[i]) {
+                result = false;
+                break;
             }
         }
         return result;

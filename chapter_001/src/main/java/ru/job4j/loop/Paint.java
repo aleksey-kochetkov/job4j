@@ -19,7 +19,6 @@ public class Paint {
 
     private String loopBy(int height, int width, BiPredicate<Integer, Integer> biPredicate) {
         StringBuilder screen = new StringBuilder();
-
         for (int row = 0; row != height; row++) {
             for (int column = 0; column != width; column++) {
                 if (biPredicate.test(row, column)) {

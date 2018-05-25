@@ -1,5 +1,9 @@
 package ru.job4j.loop;
 
+/**
+ * Создание строки с переносами, которая рисует шахматную раскраску.
+ * @author Aleksey Kochetkov
+ */
 public class Board {
     public String paint(int width, int height) {
       StringBuilder screen = new StringBuilder();

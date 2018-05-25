@@ -18,7 +18,6 @@ public class DummyBot {
         } else if (question.equals("Пока!")) {
             answer = "До скорой встречи!";
         }
-
         return answer;
     }
 }

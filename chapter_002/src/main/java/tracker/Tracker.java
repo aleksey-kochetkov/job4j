@@ -65,6 +65,6 @@ public class Tracker {
 
     private String generateId() {
 //        return Long.toString(this.nextId++);
-        return Long.toString(System.currentTimeMillis() + RANDOM.nextInt());
+        return String.valueOf(System.currentTimeMillis() + RANDOM.nextInt());
     }
 }

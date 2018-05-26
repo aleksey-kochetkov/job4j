@@ -2,7 +2,7 @@ package tracker;
 
 /**
  * Заявка.
- * @author Alekse Kochetkov
+ * @author Aleksey Kochetkov
  */
 public class Item {
     private String name;

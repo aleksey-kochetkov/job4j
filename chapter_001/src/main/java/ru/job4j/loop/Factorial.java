@@ -1,7 +1,5 @@
 package ru.job4j.loop;
 
-import com.sun.javaws.exceptions.InvalidArgumentException;
-
 /**
  * Вычисление факториала
  * @author Aleksey Kochetkov

@@ -11,7 +11,7 @@ public class TrackerTest {
     @Test
     public void whenAddNewItemThenTrackerHasSameItem() {
         Tracker tracker = new Tracker();
-        Item item = new Item("One", "Description one", "123");
+        Item item = new Item("One", "Description one");
         tracker.add(item);
         assertThat(tracker.getAll()[0], is(item));
     }
@@ -19,9 +19,9 @@ public class TrackerTest {
     @Test
     public void whenReplaceNameThenReturnNewName() {
         Tracker tracker = new Tracker();
-        Item oldItem = new Item("Old item", "Old description", "123");
+        Item oldItem = new Item("Old item", "Old description");
         tracker.add(oldItem);
-        Item newItem = new Item("New item", "New description", "1234");
+        Item newItem = new Item("New item", "New description");
         String expect = "New item";
         newItem.setId(oldItem.getId());
         tracker.replace(oldItem.getId(), newItem);
@@ -31,7 +31,7 @@ public class TrackerTest {
     @Test
     public void whenDeleteSingleThenEmpty() {
         Tracker tracker = new Tracker();
-        Item item = new Item("Single", "Single description", "");
+        Item item = new Item("Single", "Single description");
         tracker.add(item);
         tracker.delete(item.getId());
         assertEquals(0, tracker.getAll().length);
@@ -40,9 +40,9 @@ public class TrackerTest {
     @Test
     public void whenDeleteThenSecondBecomesFirst() {
         Tracker tracker = new Tracker();
-        Item one = new Item("One", "One description", "");
+        Item one = new Item("One", "One description");
         tracker.add(one);
-        Item two = new Item("Two", "Two description", "");
+        Item two = new Item("Two", "Two description");
         tracker.add(two);
         tracker.delete(one.getId());
         assertThat(tracker.getAll()[0], is(two));
@@ -51,11 +51,11 @@ public class TrackerTest {
     @Test
     public void whenFindByNameThenTwoFound() {
         Tracker tracker = new Tracker();
-        Item one = new Item("One", "One description", "");
+        Item one = new Item("One", "One description");
         tracker.add(one);
-        Item two = new Item("Two", "Two description", "");
+        Item two = new Item("Two", "Two description");
         tracker.add(two);
-        Item another = new Item("One", "Another description", "");
+        Item another = new Item("One", "Another description");
         tracker.add(another);
         Item[] expect = {one, another};
         assertThat(tracker.findByName("One"), is(expect));

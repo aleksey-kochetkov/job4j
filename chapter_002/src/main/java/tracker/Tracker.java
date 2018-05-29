@@ -8,10 +8,9 @@ import java.util.Random;
  * @author Aleksey Kochetkov
  */
 public class Tracker {
+    private static final Random RANDOM = new Random();
     private Item[] items = new Item[100];
     private int position = 0;
-//    private static long nextId = 1;
-    private static final Random RANDOM = new Random();
 
     public Item add(Item item) {
         item.setId(this.generateId());
@@ -65,7 +64,6 @@ public class Tracker {
     }
 
     private String generateId() {
-//        return Long.toString(this.nextId++);
         return String.valueOf(System.currentTimeMillis() + RANDOM.nextInt());
     }
 }

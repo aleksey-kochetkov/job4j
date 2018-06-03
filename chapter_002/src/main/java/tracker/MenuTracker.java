@@ -9,6 +9,7 @@ public class MenuTracker {
     private Input input;
     private Tracker tracker;
     private UserAction[] actions = new UserAction[7];
+    private int[] range;
 
     /**
      * Строка для вывода на экран для заявки.
@@ -34,6 +35,7 @@ public class MenuTracker {
         this.actions[4] = new FindById();
         this.actions[5] = new FindByName();
         this.actions[EXIT] = new Exit();
+        this.range = new int[] {0, 1, 2, 3, 4, 5, EXIT};
     }
 
     public void select(int key) {
@@ -47,6 +49,10 @@ public class MenuTracker {
             }
             System.out.println(action.info());
         }
+    }
+
+    public int[] getRange() {
+        return this.range;
     }
 
     private class AddItem implements UserAction {

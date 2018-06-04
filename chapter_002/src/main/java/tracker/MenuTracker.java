@@ -55,11 +55,10 @@ public class MenuTracker {
         return this.range;
     }
 
-    private class AddItem implements UserAction {
+    private class AddItem extends BaseAction {
 
-        @Override
-        public int key() {
-            return 0;
+        public AddItem() {
+            super(0, "Добавление новой заявки");
         }
 
         @Override
@@ -71,19 +70,12 @@ public class MenuTracker {
             tracker.add(item);
             System.out.println("------------ Новая заявка с Id : " + item.getId() + "-----------");
         }
-
-        @Override
-        public String info() {
-            return String.format("%s. %s",
-                                  this.key(), "Добавление новой заявки");
-        }
     }
 
-    private static class ShowItems implements UserAction {
+    private static class ShowItems extends BaseAction {
 
-        @Override
-        public int key() {
-            return 1;
+        public ShowItems() {
+            super(1, "Вывод всех заявок");
         }
 
         @Override
@@ -94,19 +86,12 @@ public class MenuTracker {
                 System.out.println();
             }
         }
-
-        @Override
-        public String info() {
-            return String.format("%s. %s",
-                                        this.key(), "Вывод всех заявок");
-        }
     }
 
-    private class DeleteItem implements UserAction {
+    private class DeleteItem extends BaseAction {
 
-        @Override
-        public int key() {
-            return 3;
+        public DeleteItem() {
+            super(3, "Удаление заявки");
         }
 
         @Override
@@ -122,19 +107,12 @@ public class MenuTracker {
                 System.out.println("------------ Удалена заявка с Id : " + id + "-----------");
             }
         }
-
-        @Override
-        public String info() {
-            return String.format("%s. %s",
-                                          this.key(), "Удаление заявки");
-        }
     }
 
-    private class FindById implements UserAction {
+    private class FindById extends BaseAction {
 
-        @Override
-        public int key() {
-            return 4;
+        public FindById() {
+            super(4, "Поиск по Id");
         }
 
         @Override
@@ -149,18 +127,12 @@ public class MenuTracker {
                 System.out.println("------------ Поиск окончен -----------");
             }
         }
-
-        @Override
-        public String info() {
-            return String.format("%s. %s", this.key(), "Поиск по Id");
-        }
     }
 
-    private class FindByName implements UserAction {
+    private class FindByName extends BaseAction {
 
-        @Override
-        public int key() {
-            return 5;
+        public FindByName() {
+            super(5, "Поиск по имени");
         }
 
         @Override
@@ -173,36 +145,24 @@ public class MenuTracker {
             }
             System.out.println("------------ Поиск окончен -----------");
         }
-
-        @Override
-        public String info() {
-            return String.format("%s. %s", this.key(), "Поиск по имени");
-        }
     }
 
-    private class Exit implements UserAction {
+    private class Exit extends BaseAction {
 
-        @Override
-        public int key() {
-            return EXIT;
+        public Exit() {
+            super(EXIT, "Выход");
         }
 
         @Override
         public void execute(Input input, Tracker tracker) {
         }
-
-        @Override
-        public String info() {
-            return String.format("%s. %s", this.key(), "Выход");
-        }
     }
 }
 
-class EditItem implements UserAction {
+class EditItem extends BaseAction {
 
-    @Override
-    public int key() {
-        return 2;
+    public EditItem() {
+        super(2, "Редактирование заявки");
     }
 
     @Override
@@ -220,11 +180,5 @@ class EditItem implements UserAction {
             tracker.replace(id, item);
             System.out.println("------------ Заявка с Id : " + item.getId() + "-----------");
         }
-    }
-
-    @Override
-    public String info() {
-        return String.format("%s. %s", this.key(),
-                                                "Редактирование заявки");
     }
 }

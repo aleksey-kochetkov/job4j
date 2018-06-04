@@ -1,17 +1,28 @@
 package tracker;
 
-public class ValidateInput extends ConsoleInput {
+public class ValidateInput implements Input {
+    private final Input input;
+
+    ValidateInput(Input input) {
+        this.input = input;
+    }
+
+    @Override
+    public String ask(String question) {
+        return this.input.ask(question);
+    }
+
     @Override
     public int ask(String question, int[] range) {
         int result;
         do {
             try {
-                result = super.ask(question, range);
+                result = this.input.ask(question, range);
                 break;
             } catch (MenuOutException exception) {
                 System.out.println("Значение не из меню, повторите");
             } catch (NumberFormatException exception) {
-                System.out.println("Ввод некорректен, повоторите");
+                System.out.println("Ввод некорректен, повторите");
             }
         } while (true);
         return result;

@@ -14,7 +14,7 @@ public class CoffeemachineTest {
     }
 
     @Test
-    public void when37Of100ThenTenFive() {
+    public void when37Of100Then6TensTwoOne() {
         Coffeemachine coffeemachine = new Coffeemachine();
         int[] expect = {10, 10, 10, 10, 10, 10, 2, 1};
         assertThat(coffeemachine.changes(100, 37), is(expect));

@@ -25,32 +25,12 @@ public enum Cell {
      * @return Cell
      */
     public static Cell valueOf(int x, int y) {
-        String name;
-        switch (x) {
-            case 0:
-                name = "A%d";
-                break;
-            case 1:
-                name = "B%d";
-                break;
-            case 2:
-                name = "C%d";
-                break;
-            case 3:
-                name = "D%d";
-                break;
-            case 4:
-                name = "E%d";
-                break;
-            case 5:
-                name = "F%d";
-                break;
-            case 6:
-                name = "G%d";
-                break;
-            default:
-                name = "H%d";
+        Cell result = null;
+        for (Cell c : Cell.values()) {
+            if (c.x == x && c.y == y) {
+                result = c;
+            }
         }
-        return Cell.valueOf(String.format(name, y + 1));
+        return result;
     }
 }

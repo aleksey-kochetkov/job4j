@@ -32,6 +32,40 @@ public class BracketsParser {
         this.closeSet = closeSet;
     }
 
+    /**
+     * Произвольные пары символов.
+     * @param pairs массив пар скобок
+     */
+    public BracketsParser(BracketsPair[] pairs) {
+        this.openSet = "";
+        this.closeSet = "";
+        this.addAll(pairs);
+    }
+
+    /**
+     * Дополнить существующий набор скобок.
+     * @param pair пара скобок
+     */
+    public void add(BracketsPair pair) {
+        this.openSet += pair.getOpenChar();
+        this.closeSet += pair.getCloseChar();
+    }
+
+    /**
+     * Дополнить существующий набор скобок.
+     * @param pairs массив пар скобок
+     */
+    public void addAll(BracketsPair[] pairs) {
+        StringBuilder openBuilder = new StringBuilder(this.openSet);
+        StringBuilder closeBuilder = new StringBuilder(this.closeSet);
+        for (BracketsPair p : pairs) {
+            openBuilder.append(p.getOpenChar());
+            closeBuilder.append(p.getCloseChar());
+        }
+        this.openSet = openBuilder.toString();
+        this.closeSet = closeBuilder.toString();
+    }
+
     public List<BracketsPair> parse(String input) throws ParseException {
         Deque<BracketsPair> stack = new LinkedList<>();
         List<BracketsPair> list = new ArrayList<>();

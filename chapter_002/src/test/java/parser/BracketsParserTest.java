@@ -129,4 +129,59 @@ public class BracketsParserTest {
         expect.add(pair);
         assertThat(result.toArray(), is(expect.toArray()));
     }
+
+    @Test
+    public void whenAddThenValid() {
+        String sample = "a/\\[b{c}(d)e]";
+        BracketsParser parser = new BracketsParser();
+        parser.add(new BracketsPair('/', '\\'));
+        List<BracketsPair> result = null;
+        try {
+            result = parser.parse(sample);
+        } catch (ParseException exception) {
+            fail();
+        }
+        List<BracketsPair> expect = new ArrayList<>();
+        BracketsPair pair = new BracketsPair('/', '\\');
+        pair.setOpenPosition(1);
+        pair.setClosePosition(2);
+        expect.add(pair);
+        pair = new BracketsPair('[', ']');
+        pair.setOpenPosition(3);
+        pair.setClosePosition(12);
+        expect.add(pair);
+        pair = new BracketsPair('{', '}');
+        pair.setOpenPosition(5);
+        pair.setClosePosition(7);
+        expect.add(pair);
+        pair = new BracketsPair('(', ')');
+        pair.setOpenPosition(8);
+        pair.setClosePosition(10);
+        expect.add(pair);
+        assertThat(result.toArray(), is(expect.toArray()));
+    }
+
+    @Test
+    public void whenSingleArgConstructorThenValid() {
+        String sample = "a/[b{c\\}(d)e]";
+        BracketsPair[] pairs = {new BracketsPair('/', '\\'),
+                                new BracketsPair('(', ')')};
+        BracketsParser parser = new BracketsParser(pairs);
+        List<BracketsPair> result = null;
+        try {
+            result = parser.parse(sample);
+        } catch (ParseException exception) {
+            fail();
+        }
+        List<BracketsPair> expect = new ArrayList<>();
+        BracketsPair pair = new BracketsPair('/', '\\');
+        pair.setOpenPosition(1);
+        pair.setClosePosition(6);
+        expect.add(pair);
+        pair = new BracketsPair('(', ')');
+        pair.setOpenPosition(8);
+        pair.setClosePosition(10);
+        expect.add(pair);
+        assertThat(result.toArray(), is(expect.toArray()));
+    }
 }

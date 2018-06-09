@@ -1,18 +1,14 @@
 package tracker;
 
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static org.hamcrest.core.Is.is;
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
-import java.io.PrintStream;
-import java.io.ByteArrayOutputStream;
-import java.util.Scanner;
+import java.util.Arrays;
+import java.util.List;
 
 public class TrackerTest {
 
@@ -21,7 +17,7 @@ public class TrackerTest {
         Tracker tracker = new Tracker();
         Item item = new Item("One", "Description one");
         tracker.add(item);
-        assertThat(tracker.getAll()[0], is(item));
+        assertThat(tracker.getAll().get(0), is(item));
     }
 
     @Test
@@ -42,7 +38,7 @@ public class TrackerTest {
         Item item = new Item("Single", "Single description");
         tracker.add(item);
         tracker.delete(item.getId());
-        assertEquals(0, tracker.getAll().length);
+        assertEquals(0, tracker.getAll().size());
     }
 
     @Test
@@ -53,7 +49,7 @@ public class TrackerTest {
         Item two = new Item("Two", "Two description");
         tracker.add(two);
         tracker.delete(one.getId());
-        assertThat(tracker.getAll()[0], is(two));
+        assertThat(tracker.getAll().get(0), is(two));
     }
 
     @Test
@@ -65,14 +61,14 @@ public class TrackerTest {
         tracker.add(two);
         Item another = new Item("One", "Another description");
         tracker.add(another);
-        Item[] expect = {one, another};
+        List<Item> expect = Arrays.asList(one, another);
         assertThat(tracker.findByName("One"), is(expect));
     }
 
     @Test
     public void whenNotAddedAndGetAllThenEmpty() {
         Tracker tracker = new Tracker();
-        assertEquals(0, tracker.getAll().length);
+        assertEquals(0, tracker.getAll().size());
     }
 
     @Test

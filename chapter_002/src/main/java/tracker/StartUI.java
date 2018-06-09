@@ -33,7 +33,7 @@ public class StartUI {
             menu.show();
             key = this.input.ask("Введите пункт меню : ", menu.getRange());
             menu.select(key);
-        } while (key != MenuTracker.EXIT);
+        } while (key != MenuTracker.exitIndex);
     }
 
     /**

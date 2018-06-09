@@ -1,15 +1,19 @@
 package tracker;
 
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Arrays;
+
 /**
  * @author Aleksey Kochetkov
  */
 public class MenuTracker {
-    public static final int EXIT = 6;
+    public static int exitIndex;
 
     private Input input;
     private Tracker tracker;
-    private UserAction[] actions = new UserAction[7];
-    private int[] range;
+    private List<UserAction> actions = new ArrayList<>();
+    private List<Integer> range = new ArrayList<>();
 
     /**
      * Строка для вывода на экран для заявки.
@@ -28,18 +32,19 @@ public class MenuTracker {
     }
 
     private void fillActions() {
-        this.actions[0] = new AddItem();
-        this.actions[1] = new ShowItems();
-        this.actions[2] = new EditItem();
-        this.actions[3] = new DeleteItem();
-        this.actions[4] = new FindById();
-        this.actions[5] = new FindByName();
-        this.actions[EXIT] = new Exit();
-        this.range = new int[] {0, 1, 2, 3, 4, 5, EXIT};
+        this.actions.add(new AddItem());
+        this.actions.add(new ShowItems());
+        this.actions.add(new EditItem());
+        this.actions.add(new DeleteItem());
+        this.actions.add(new FindById());
+        this.actions.add(new FindByName());
+        exitIndex = actions.size();
+        this.actions.add(new Exit());
+        this.range = Arrays.asList(0, 1, 2, 3, 4, 5, exitIndex);
     }
 
     public void select(int key) {
-        this.actions[key].execute(this.input, this.tracker);
+        this.actions.get(key).execute(this.input, this.tracker);
     }
 
     public void show() {
@@ -51,7 +56,7 @@ public class MenuTracker {
         }
     }
 
-    public int[] getRange() {
+    public List<Integer> getRange() {
         return this.range;
     }
 
@@ -139,7 +144,7 @@ public class MenuTracker {
         public void execute(Input input, Tracker tracker) {
             System.out.println("------------ Поиск по имени --------------");
             String name = input.ask("Введите имя заявки : ");
-            Item[] items = tracker.findByName(name);
+            List<Item> items = tracker.findByName(name);
             for (Item item : items) {
                 System.out.println(MenuTracker.showItem(item));
             }
@@ -150,7 +155,7 @@ public class MenuTracker {
     private class Exit extends BaseAction {
 
         public Exit() {
-            super(EXIT, "Выход");
+            super(exitIndex, "Выход");
         }
 
         @Override

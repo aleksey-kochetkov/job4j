@@ -1,6 +1,7 @@
 package tracker;
 
 import java.util.Scanner;
+import java.util.List;
 
 public class ConsoleInput implements Input {
     private Scanner scanner = new Scanner(System.in, "cp866");
@@ -12,7 +13,7 @@ public class ConsoleInput implements Input {
     }
 
     @Override
-    public int ask(String question, int[] range) {
+    public int ask(String question, List<Integer> range) {
         int key = Integer.parseInt(this.ask(question));
         boolean exists = false;
         for (int i : range) {

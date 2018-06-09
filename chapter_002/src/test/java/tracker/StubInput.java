@@ -1,5 +1,7 @@
 package tracker;
 
+import java.util.List;
+
 public class StubInput implements Input {
     private String[] answers;
     private int position = 0;
@@ -12,7 +14,7 @@ public class StubInput implements Input {
         return this.answers[this.position++];
     }
 
-    public int ask(String question, int[] range) {
+    public int ask(String question, List<Integer> range) {
         return Integer.parseInt(this.ask(question));
     }
 }

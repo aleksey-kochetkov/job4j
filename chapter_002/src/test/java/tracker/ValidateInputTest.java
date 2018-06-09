@@ -3,10 +3,9 @@ package tracker;
 import org.junit.Test;
 import org.junit.Before;
 import org.junit.After;
-
 import java.io.PrintStream;
 import java.io.ByteArrayOutputStream;
-
+import java.util.Arrays;
 import static org.junit.Assert.assertThat;
 import static org.hamcrest.core.Is.is;
 
@@ -28,7 +27,7 @@ public class ValidateInputTest {
     public void whenInvalidInput() {
         String[] input = {"dfj", "6"};
         ValidateInput validator = new ValidateInput(new StubInput(input));
-        validator.ask("Enter : ", new int[] {1});
+        validator.ask("Enter : ", Arrays.asList(1));
         String expect = String.format("Ввод некорректен, повторите%n");
         assertThat(this.mem.toString(), is(expect));
     }

@@ -26,6 +26,10 @@ public class User implements Comparable<User> {
         return this.name;
     }
 
+    public int getAge() {
+        return this.age;
+    }
+
     public int compareTo(User other) {
         return this.age - other.age;
     }

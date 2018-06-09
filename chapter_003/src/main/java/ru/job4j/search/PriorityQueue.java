@@ -12,13 +12,16 @@ public class PriorityQueue {
      * @param task задача
      */
     public void put(Task task) {
-        int index;
-        for (index = 0; index < this.tasks.size(); index++) {
+//        int index;
+        for (int index = 0; index < this.tasks.size(); index++) {
             if (this.tasks.get(index).getPriority() > task.getPriority()) {
+                this.tasks.add(index, task);
                 break;
             }
         }
-        this.tasks.add(index, task);
+// эта строка обрабатывала случай tasks.size() == 0,
+// теперь тут ОШИБКА :) в пустой список не добавится
+//        this.tasks.add(index, task);
     }
 
     public Task take() {

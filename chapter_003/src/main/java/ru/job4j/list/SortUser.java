@@ -23,6 +23,7 @@ public class SortUser {
      */
     public List<User> sortNameLength(List<User> input) {
         input.sort(new Comparator<User>() {
+            @Override
             public int compare(User o1, User o2) {
                 return o1.getName().length() - o2.getName().length();
             }
@@ -37,6 +38,7 @@ public class SortUser {
      */
     public List<User> sortByAllFields(List<User> input) {
         input.sort(new Comparator<User>() {
+            @Override
             public int compare(User o1, User o2) {
                 int result = o1.getName().compareTo(o2.getName());
                 return result == 0 ? o1.getAge() - o2.getAge() : result;

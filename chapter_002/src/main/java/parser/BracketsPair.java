@@ -11,6 +11,13 @@ public class BracketsPair {
         this.closeChar = close;
     }
 
+    public BracketsPair(BracketsPair other) {
+        this.openChar = other.openChar;
+        this.closeChar = other.closeChar;
+        this.openPosition = other.openPosition;
+        this.closePosition = other.closePosition;
+    }
+
     public char getOpenChar() {
         return this.openChar;
     }

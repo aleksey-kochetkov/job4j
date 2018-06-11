@@ -115,7 +115,7 @@ public class BracketsParserTest {
     @Test
     public void whenCustomBracketsThenValid() {
         String sample = "a/[b{c\\}(d)e]";
-        BracketsParser parser = new BracketsParser("/", "\\");
+        BracketsParser parser = new BracketsParser(new BracketsPair[] {new BracketsPair('/', '\\')});
         List<BracketsPair> result = null;
         try {
             result = parser.parse(sample);

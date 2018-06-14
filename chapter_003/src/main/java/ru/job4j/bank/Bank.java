@@ -35,23 +35,15 @@ public class Bank {
     public boolean transferMoney(String srcPassport, String srcRequisites,
                                  String dstPassport, String dstRequisites, BigDecimal amount) {
         boolean result = false;
-        Account src;
-        Account dst;
         User srcUser = this.findByPassport(srcPassport);
         User dstUser = this.findByPassport(dstPassport);
         if (srcUser != null && dstUser != null) {
             int srcIndex = this.accounts.get(srcUser).indexOf(new Account(srcRequisites));
-            if (srcIndex > -1) {
-                src = this.accounts.get(srcUser).get(srcIndex);
-                int dstIndex = this.accounts.get(dstUser).indexOf(new Account(dstRequisites));
-                if (dstIndex > -1) {
-                    dst = this.accounts.get(dstUser).get(dstIndex);
-                    if (src != null && dst != null) {
-                        src.addAmount(amount.negate());
-                        dst.addAmount(amount);
-                        result = true;
-                    }
-                }
+            int dstIndex = this.accounts.get(dstUser).indexOf(new Account(dstRequisites));
+            if (srcIndex > -1 && dstIndex > -1) {
+                this.accounts.get(srcUser).get(srcIndex).addAmount(amount.negate());
+                this.accounts.get(dstUser).get(dstIndex).addAmount(amount);
+                result = true;
             }
         }
         return result;

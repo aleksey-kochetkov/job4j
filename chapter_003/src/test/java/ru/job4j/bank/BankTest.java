@@ -174,4 +174,22 @@ public class BankTest {
         assertThat(src.getValue(), is(new BigDecimal("3.45")));
         assertThat(dst.getValue(), is(new BigDecimal("0.00")));
     }
+
+    @Test
+    public void whenTransferMoneyBothAccountsNotExistThenFalse() {
+        Bank bank = new Bank();
+        User one = new User("One", "001");
+        User two = new User("Two", "002");
+        bank.addUser(one);
+        bank.addUser(two);
+        Account src = new Account("001001", new BigDecimal("3.45"));
+        Account dst = new Account("002001");
+        bank.addAccountToUser("001", src);
+        bank.addAccountToUser("002", dst);
+        boolean result =
+                bank.transferMoney("001", "001002", "002", "002002", new BigDecimal("1.23"));
+        assertFalse(result);
+        assertThat(src.getValue(), is(new BigDecimal("3.45")));
+        assertThat(dst.getValue(), is(new BigDecimal("0.00")));
+    }
 }

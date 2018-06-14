@@ -12,8 +12,8 @@ import java.util.HashMap;
  * @author Aleksey Kochetkov
  */
 public class Reference {
-    public static final char SEPARATOR = '\\';
-    Map<String, NavigableSet<String>> departments = new HashMap<>();
+    private static final char SEPARATOR = '\\';
+    private Map<String, NavigableSet<String>> departments = new HashMap<>();
 
     /**
      * Задать входные данные, массив.

@@ -14,7 +14,7 @@ public class JaggedArrayIteratorTest {
 
     @Before
     public void setUp() {
-        it = new TwoDimArrayIterable(new int[][]{{1}, {3, 4}, {7}}).iterator();
+        it = new TwoDimArrayIterator(new int[][]{{1}, {3, 4}, {7}});
     }
 
     @Test

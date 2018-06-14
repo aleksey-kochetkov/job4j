@@ -15,7 +15,7 @@ public class MatrixIteratorTest {
 
     @Before
     public void setUp() {
-        it = new TwoDimArrayIterable(new int[][]{{1, 2, 3}, {4, 5, 6}}).iterator();
+        it = new TwoDimArrayIterator(new int[][]{{1, 2, 3}, {4, 5, 6}});
     }
 
     @Test
@@ -59,7 +59,7 @@ public class MatrixIteratorTest {
 
     @Test(expected = NoSuchElementException.class)
     public void shoulThrowNoSuchElementException() {
-        it = new TwoDimArrayIterable(new int[][]{}).iterator();
+        it = new TwoDimArrayIterator(new int[][]{});
         it.next();
     }
 }

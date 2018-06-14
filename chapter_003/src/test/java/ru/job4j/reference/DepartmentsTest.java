@@ -15,7 +15,7 @@ public class DepartmentsTest {
                           "K2",
                           "K2\\SK1\\SSK1",
                           "K2\\SK1\\SSK2"};
-        Departments departments = new Departments(input);
+        Departments departments = new DepartmentsBuilder().build(input);
         String[] expect = {"K1",
                            "K1\\SK1",
                            "K1\\SK1\\SSK1",
@@ -37,7 +37,7 @@ public class DepartmentsTest {
                           "K2",
                           "K2\\SK1\\SSK1",
                           "K2\\SK1\\SSK2"};
-        Departments departments = new Departments(input);
+        Departments departments = new DepartmentsBuilder().build(input);
         String[] expect = {"K2",
                            "K2\\SK1",
                            "K2\\SK1\\SSK2",
@@ -56,7 +56,7 @@ public class DepartmentsTest {
                           "K2",
                           "K2\\SK1\\SSK1",
                           "K2\\SK1\\SSK2"};
-        Departments departments = new Departments(input);
+        Departments departments = new DepartmentsBuilder().build(input);
         String[] expect = {"K2",
                            "K2\\SK1",
                            "K2\\SK1\\SSK2",

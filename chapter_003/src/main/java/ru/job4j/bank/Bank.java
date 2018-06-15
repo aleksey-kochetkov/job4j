@@ -35,26 +35,34 @@ public class Bank {
     public boolean transferMoney(String srcPassport, String srcRequisites,
                                  String dstPassport, String dstRequisites, BigDecimal amount) {
         boolean result = false;
-        User srcUser = this.findByPassport(srcPassport);
-        User dstUser = this.findByPassport(dstPassport);
-        if (srcUser != null && dstUser != null) {
-            int srcIndex = this.accounts.get(srcUser).indexOf(new Account(srcRequisites));
-            int dstIndex = this.accounts.get(dstUser).indexOf(new Account(dstRequisites));
-            if (srcIndex > -1 && dstIndex > -1) {
-                this.accounts.get(srcUser).get(srcIndex).addAmount(amount.negate());
-                this.accounts.get(dstUser).get(dstIndex).addAmount(amount);
-                result = true;
-            }
+        Account srcAccount = this.findAccount(srcPassport, srcRequisites);
+        Account dstAccount = this.findAccount(dstPassport, dstRequisites);
+        if (srcAccount != null && dstAccount != null) {
+            srcAccount.addAmount(amount.negate());
+            dstAccount.addAmount(amount);
+            result = true;
         }
         return result;
     }
 
-    User findByPassport(String passport) {
+    private User findByPassport(String passport) {
         User result = null;
         for (User u : this.accounts.keySet()) {
             if (u.getPassport().equals(passport)) {
                 result = u;
                 break;
+            }
+        }
+        return result;
+    }
+
+    private Account findAccount(String passport, String requisites) {
+        Account result = null;
+        User user = this.findByPassport(passport);
+        if (user != null) {
+            int index = this.accounts.get(user).indexOf(new Account(requisites));
+            if (index > -1) {
+                result = this.accounts.get(user).get(index);
             }
         }
         return result;

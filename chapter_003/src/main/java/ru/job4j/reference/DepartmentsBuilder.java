@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class DepartmentsBuilder {
-    public Departments build(String[] input) {
+    public Departments getDepartments(String[] input) {
         List<String> departments = new ArrayList<>(Arrays.asList(input));
         List<String> missingDepartments = new ArrayList<>();
         for (String currentDepartment : departments) {

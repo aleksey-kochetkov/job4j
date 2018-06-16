@@ -16,13 +16,13 @@ public class TwoDimArrayIterator implements Iterator<Integer> {
         this.data = data;
         this.row = 0;
         this.col = 0;
-// если первая строка массива имеет нулевую длину, например {{}, {33}},
-// то требуется перевести текущие row, col к существующему элементу (row=1 col=0)
-        this.checkRowCol();
     }
 
     @Override
     public boolean hasNext() {
+// если первая строка массива имеет нулевую длину, например {{}, {33}},
+// то требуется перевести текущие row, col к существующему элементу (row=1 col=0)
+        this.checkRowCol();
         return this.row < this.data.length;
     }
 
@@ -31,10 +31,7 @@ public class TwoDimArrayIterator implements Iterator<Integer> {
         if (!this.hasNext()) {
             throw new NoSuchElementException();
         }
-        int result = this.data[this.row][this.col++];
-// это переход к следующему реальному элементу массива
-        this.checkRowCol();
-        return result;
+        return this.data[this.row][this.col++];
     }
 
     /**

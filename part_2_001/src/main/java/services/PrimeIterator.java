@@ -10,16 +10,7 @@ import java.util.NoSuchElementException;
 public class PrimeIterator implements Iterator<Integer> {
     private int[] numbers;
     private static final PrimalityTest TEST = new PrimalityTest();
-    /**
-     * Текущий элемент итератора.
-     * -1 если ещё не вычислен.
-     */
-    private int current = -1;
-    /**
-     * Следующий элемент итератора.
-     * -1 если ещё не вычислен.
-     */
-    private int next = -1;
+    private int next = 0;
 
     public PrimeIterator(int[] numbers) {
         this.numbers = numbers;
@@ -27,14 +18,12 @@ public class PrimeIterator implements Iterator<Integer> {
 
     @Override
     public boolean hasNext() {
-        boolean result = next != -1;
-        if (!result) {
-            for (int i = current + 1; i < numbers.length; i++) {
-                if (TEST.isPrime(numbers[i])) {
-                    this.next = i;
-                    result = true;
-                    break;
-                }
+        boolean result = false;
+        for (int i = this.next; i < this.numbers.length; i++) {
+            if (TEST.isPrime(numbers[i])) {
+                this.next = i;
+                result = true;
+                break;
             }
         }
         return result;
@@ -45,8 +34,6 @@ public class PrimeIterator implements Iterator<Integer> {
         if (!this.hasNext()) {
             throw new NoSuchElementException();
         }
-        this.current = this.next;
-        this.next = -1;
-        return this.numbers[this.current];
+        return this.numbers[this.next++];
     }
 }

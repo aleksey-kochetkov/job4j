@@ -25,9 +25,7 @@ public class SimpleArray<T> implements Iterable<T> {
     }
 
     public void set(int index, T model) {
-        if (index >= this.size || index < 0) {
-            throw new IndexOutOfBoundsException();
-        }
+        this.checkIndex(index);
         this.data[index] = model;
     }
 
@@ -36,17 +34,14 @@ public class SimpleArray<T> implements Iterable<T> {
      * @param index индекс элемента
      */
     public void remove(int index) {
-        if (index >= this.size || index < 0) {
-            throw new IndexOutOfBoundsException();
-        }
+        checkIndex(index);
         System.arraycopy(this.data, index + 1, this.data, index, this.size - (index + 1));
+        this.data[this.size - 1] = null;
         this.size--;
     }
 
     public T get(int index) {
-        if (index >= this.size || index < 0) {
-            throw new IndexOutOfBoundsException();
-        }
+        checkIndex(index);
         return (T) this.data[index];
     }
 
@@ -68,5 +63,11 @@ public class SimpleArray<T> implements Iterable<T> {
                 return (T) SimpleArray.this.data[this.next++];
             }
         };
+    }
+
+    private void checkIndex(int index) {
+        if (index >= this.size || index < 0) {
+            throw new IndexOutOfBoundsException();
+        }
     }
 }

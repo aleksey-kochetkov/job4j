@@ -22,18 +22,28 @@ public class Departments {
         this.departments.sort(new Comparator<String>() {
             @Override
             public int compare(String o1, String o2) {
+// позже увидел простое решение
+//                int result;
+//                String[] parts1 = o1.split(Pattern.quote(Character.toString(SEPARATOR)));
+//                String[] parts2 = o2.split(Pattern.quote(Character.toString(SEPARATOR)));
+//                int i = 0;
+//                do {
+//                    result = parts2[i].compareTo(parts1[i]);
+//                    if (result == 0 && (parts1.length == i + 1 || parts2.length == i + 1)) {
+//                        result = parts1.length - parts2.length;
+//                        break;
+//                    }
+//                    i++;
+//                } while (result == 0);
+//                return result;
                 int result;
-                String[] parts1 = o1.split(Pattern.quote(Character.toString(SEPARATOR)));
-                String[] parts2 = o2.split(Pattern.quote(Character.toString(SEPARATOR)));
-                int i = 0;
-                do {
-                    result = parts2[i].compareTo(parts1[i]);
-                    if (result == 0 && (parts1.length == i + 1 || parts2.length == i + 1)) {
-                        result = parts1.length - parts2.length;
-                        break;
-                    }
-                    i++;
-                } while (result == 0);
+                if (o2.startsWith(o1)) {
+                    result = -1;
+                } else if (o1.startsWith(o2)) {
+                    result = 1;
+                } else {
+                    result = o2.compareTo(o1);
+                }
                 return result;
             }
         });

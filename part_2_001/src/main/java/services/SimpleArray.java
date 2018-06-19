@@ -40,6 +40,7 @@ public class SimpleArray<T> implements Iterable<T> {
         this.size--;
     }
 
+    @SuppressWarnings("unchecked")
     public T get(int index) {
         checkIndex(index);
         return (T) this.data[index];
@@ -55,6 +56,7 @@ public class SimpleArray<T> implements Iterable<T> {
                 return this.next < SimpleArray.this.size;
             }
 
+            @SuppressWarnings("unchecked")
             @Override
             public T next() {
                 if (!this.hasNext()) {

@@ -3,6 +3,7 @@ package services;
 import java.util.ConcurrentModificationException;
 import java.util.NoSuchElementException;
 import org.junit.Test;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static org.hamcrest.core.Is.is;
 
@@ -59,14 +60,22 @@ public class LinkedIterableTest {
         iterable.iterator().next();
     }
 
-//    @Test
-//    public void whenSecondGrowBugThenCorrected() {
-//        ArrayIterable<Integer> iterable = new ArrayIterable<>();
-//        for (int i = 0; i < 20; i++) {
-//            iterable.add(i);
-//        }
-//        for (int i = 0; i < 20; i++) {
-//            assertThat(iterable.get(i), is(i));
-//        }
-//    }
+    @Test
+    public void whenRemoveThenLowerSize() {
+        LinkedIterable<String> iterable = new LinkedIterable<>();
+        iterable.add("one");
+        iterable.add("two");
+        iterable.remove(0);
+        assertEquals(1, iterable.size());
+    }
+
+    @Test
+    public void whenRemoveInTheMiddleThenLowerSize() {
+        LinkedIterable<String> iterable = new LinkedIterable<>();
+        iterable.add("one");
+        iterable.add("two");
+        iterable.add("three");
+        iterable.remove(2);
+        assertEquals(2, iterable.size());
+    }
 }

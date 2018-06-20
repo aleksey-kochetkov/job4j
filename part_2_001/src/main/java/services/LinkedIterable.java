@@ -22,24 +22,44 @@ public class LinkedIterable<E> implements Iterable<E> {
         }
     }
 
+    public int size() {
+        return this.size;
+    }
+
     public void add(E value) {
         this.modCount++;
-        Node n = new Node(value);
+        Node node = new Node(value);
         if (first == null) {
-            first = n;
+            first = node;
             last = first;
         } else {
-            this.last.next = n;
-            this.last = n;
+            this.last.next = node;
+            this.last = node;
         }
         this.size++;
     }
 
-    public E get(int index) {
-        Node node = this.first;
-        if (index >= this.size || index < 0) {
-            throw new IndexOutOfBoundsException();
+    public E remove(int index) {
+        E result;
+        this.checkIndex(index);
+        if (index == 0) {
+            result = this.first.data;
+            this.first = this.first.next;
+        } else {
+            Node previous = this.first;
+            for (int i = 1; i < index; i++) {
+                previous = previous.next;
+            }
+            result = previous.next.data;
+            previous.next = previous.next.next;
         }
+        this.size--;
+        return result;
+    }
+
+    public E get(int index) {
+        this.checkIndex(index);
+        Node node = this.first;
         for (int i = 0; i < index; i++) {
             node = node.next;
         }
@@ -69,5 +89,11 @@ public class LinkedIterable<E> implements Iterable<E> {
                 return result;
             }
         };
+    }
+
+    private void checkIndex(int index) {
+        if (index >= this.size || index < 0) {
+            throw new IndexOutOfBoundsException();
+        }
     }
 }

@@ -18,6 +18,7 @@ public class CycleDetectorTest {
         fourth.next = first;
         assertTrue(new CycleDetector<Integer>().hasCycleTmp(first));
         assertTrue(new CycleDetector<Integer>().hasCycle(first));
+        assertTrue(new CycleDetector<Integer>().hasCycleTortoiseAndHare(first));
     }
 
     @Test
@@ -31,5 +32,17 @@ public class CycleDetectorTest {
         third.next = fourth;
         assertFalse(new CycleDetector<Integer>().hasCycleTmp(first));
         assertFalse(new CycleDetector<Integer>().hasCycle(first));
+        assertFalse(new CycleDetector<Integer>().hasCycleTortoiseAndHare(first));
+    }
+
+    @Test
+    public void whenNullThenNoCycle() {
+        assertFalse(new CycleDetector<Integer>().hasCycleTortoiseAndHare(null));
+    }
+
+    @Test
+    public void whenFirstHasNullInNextThenNoCycle() {
+        Node<Integer> first = new Node<>(1);
+        assertFalse(new CycleDetector<Integer>().hasCycleTortoiseAndHare(first));
     }
 }

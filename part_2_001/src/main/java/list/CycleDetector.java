@@ -38,17 +38,34 @@ public class CycleDetector<T> {
     public boolean hasCycle(Node<T> first) {
         boolean result = false;
         Node<T> current = first;
-outer:
-        while (current != null) {
+        while (current != null && !result) {
             Node<T> previousNode = first;
             while (previousNode != current) {
                 if (current.next == previousNode) {
                     result = true;
-                    break outer;
+                    break;
                 }
                 previousNode = previousNode.next;
             }
             current = current.next;
+        }
+        return result;
+    }
+
+    /**
+     * Оказывается уже найден более оптимальный алгоритм для этой задачи.
+     * Tortoise and hare algorithm.
+     */
+    public boolean hasCycleTortoiseAndHare(Node<T> first) {
+        boolean result = false;
+        if (first != null && first.next != null) {
+            Node<T> tortoise = first;
+            Node<T> hare = first.next;
+            while (hare.next != null && hare != tortoise) {
+                tortoise = tortoise.next;
+                hare = hare.next.next;
+            }
+            result = hare == tortoise;
         }
         return result;
     }

@@ -22,7 +22,7 @@ public class SimpleHashSet<E> implements Iterable<E> {
      */
     public boolean add(E element) {
         if (element == null) {
-            throw new NullPointerException();
+            throw new NullPointerException("null value of element is prohibited");
         }
         boolean result = false;
         if (this.size == this.elements.length) {
@@ -59,7 +59,11 @@ public class SimpleHashSet<E> implements Iterable<E> {
 
             @Override
             public boolean hasNext() {
-                return this.next < SimpleHashSet.this.size;
+                while (this.next < SimpleHashSet.this.elements.length
+                       && SimpleHashSet.this.elements[this.next] == null) {
+                    this.next++;
+                }
+                return this.next < SimpleHashSet.this.elements.length;
             }
 
             @SuppressWarnings("unchecked")

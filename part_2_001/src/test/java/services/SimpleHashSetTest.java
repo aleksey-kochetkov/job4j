@@ -93,4 +93,17 @@ public class SimpleHashSetTest {
             set.add(2);
         }
     }
+
+    @Test
+    public void whenIncompleteIterationBug() {
+        SimpleHashSet<Integer> set = new SimpleHashSet<>();
+        set.add(0);
+        set.add(1);
+        set.add(3);
+        int result = 0;
+        for (Integer i : set) {
+            result = i;
+        }
+        assertEquals(3, result);
+    }
 }

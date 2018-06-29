@@ -55,9 +55,8 @@ public class SimpleTree<E extends Comparable<E>> implements Tree<E> {
         return rsl;
     }
 
-    @Override
-    public Iterator<E> iterator() {
-        return new Iterator<E>() {
+    private Iterator<Node<E>> nodeIterator() {
+        return new Iterator<Node<E>>() {
             private int expectedModCount = SimpleTree.this.modCount;
             private Deque<Iterator<Node<E>>> iterators;
 
@@ -81,29 +80,54 @@ public class SimpleTree<E extends Comparable<E>> implements Tree<E> {
             }
 
             @Override
-            public E next() {
+            public Node<E> next() {
                 if (this.expectedModCount != SimpleTree.this.modCount) {
                     throw new ConcurrentModificationException();
                 }
                 if (!this.hasNext()) {
                     throw new NoSuchElementException();
                 }
-                E result;
+                Node<E> result;
                 if (this.iterators == null) {
                     this.iterators = new LinkedList<>();
-                    result = this.offerIterator(SimpleTree.this.root);
+                    result = SimpleTree.this.root;
                 } else {
-                    result = this.offerIterator(this.iterators.peekFirst().next());
+                    result = this.iterators.peekFirst().next();
+                }
+                if (!result.leaves().isEmpty()) {
+                    this.iterators.offerFirst(result.leaves().iterator());
                 }
                 return result;
             }
+        };
+    }
 
-            private E offerIterator(Node<E> node) {
-                if (!node.leaves().isEmpty()) {
-                    this.iterators.offerFirst(node.leaves().iterator());
-                }
-                return node.getValue();
+    @Override
+    public Iterator<E> iterator() {
+        return new Iterator<E>() {
+            private Iterator<Node<E>> nodeIterator = SimpleTree.this.nodeIterator();
+
+            @Override
+            public boolean hasNext() {
+                return this.nodeIterator.hasNext();
+            }
+
+            @Override
+            public E next() {
+                return this.nodeIterator.next().getValue();
             }
         };
+    }
+
+    public boolean isBinary() {
+        boolean result = true;
+        for (Iterator<Node<E>> nodeIterator = this.nodeIterator(); nodeIterator.hasNext();) {
+            Node<E> node = nodeIterator.next();
+            if (node.leaves().size() > 2) {
+                result = false;
+                break;
+            }
+        }
+        return result;
     }
 }

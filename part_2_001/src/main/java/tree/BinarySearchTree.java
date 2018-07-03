@@ -19,23 +19,50 @@ public class BinarySearchTree<E extends Comparable<E>> implements Iterable<E> {
 
     private Node root;
 
-    public void add(E element) {
-        this.root = add(this.root, element);
-    }
+// Рекурсивная реализация. Оставил на память.
+//    public void add(E element) {
+//        this.root = add(this.root, element);
+//    }
+//
+//    private Node add(Node parent, E element) {
+//        Node result;
+//        if (parent == null) {
+//            result = new Node(element);
+//        } else {
+//            result = parent;
+//            if (parent.element.compareTo(element) >= 0) {
+//                parent.left = add(parent.left, element);
+//            } else {
+//                parent.right = add(parent.right, element);
+//            }
+//        }
+//        return result;
+//    }
 
-    private Node add(Node parent, E element) {
-        Node result;
-        if (parent == null) {
-            result = new Node(element);
+    public void add(E element) {
+        Node node = new Node(element);
+        if (this.root == null) {
+            this.root = node;
         } else {
-            result = parent;
-            if (parent.element.compareTo(element) >= 0) {
-                parent.left = add(parent.left, element);
-            } else {
-                parent.right = add(parent.right, element);
+            Node parent = this.root;
+            for (boolean exit = false; !exit;) {
+                if (parent.element.compareTo(element) >= 0) {
+                    if (parent.left == null) {
+                        parent.left = node;
+                        exit = true;
+                    } else {
+                        parent = parent.left;
+                    }
+                } else {
+                    if (parent.right == null) {
+                        parent.right = node;
+                        exit = true;
+                    } else {
+                        parent = parent.right;
+                    }
+                }
             }
         }
-        return result;
     }
 
     /**

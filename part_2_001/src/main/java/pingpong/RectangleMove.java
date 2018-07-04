@@ -13,7 +13,6 @@ import java.util.Random;
 public class RectangleMove implements Runnable {
     private static final Random RANDOM = new Random();
     private final Rectangle rect;
-    private volatile boolean stop = false;
 
     public RectangleMove(Rectangle rect) {
         this.rect = rect;
@@ -25,7 +24,7 @@ public class RectangleMove implements Runnable {
         double y = this.rect.getY();
         double dx = 1;
         double dy = 0;
-        while (!this.stop) {
+        while (!Thread.interrupted()) {
             x += dx;
             y += dy;
             double speed = 0.0;
@@ -47,19 +46,12 @@ public class RectangleMove implements Runnable {
             try {
                 Thread.sleep(50);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                break;
             }
         }
     }
 
     private double increaseCoordinateByRandom(double coord, double speed) {
         return coord + (coord < 0 ? -1 : 1) * speed * RANDOM.nextDouble() / 10;
-    }
-
-    /**
-     * Самостоятельно поток не умирает при закрытии окна в системе.
-     */
-    void stop() {
-        this.stop = true;
     }
 }

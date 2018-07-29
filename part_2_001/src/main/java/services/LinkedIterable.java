@@ -1,16 +1,24 @@
 package services;
 
+import net.jcip.annotations.ThreadSafe;
+import net.jcip.annotations.GuardedBy;
+
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
+@ThreadSafe
 public class LinkedIterable<E> implements Iterable<E> {
+    @GuardedBy("this")
     private int size;
+    @GuardedBy("this")
     private Node first;
     /**
      * ускоряет выполнение add()
      */
+    @GuardedBy("this")
     private Node last;
+    @GuardedBy("this")
     private int modCount;
 
     private class Node {
@@ -22,11 +30,11 @@ public class LinkedIterable<E> implements Iterable<E> {
         }
     }
 
-    public int size() {
+    public synchronized int size() {
         return this.size;
     }
 
-    public void add(E value) {
+    public synchronized void add(E value) {
         this.modCount++;
         Node node = new Node(value);
         if (first == null) {
@@ -39,7 +47,7 @@ public class LinkedIterable<E> implements Iterable<E> {
         this.size++;
     }
 
-    public E remove(int index) {
+    public synchronized E remove(int index) {
         E result;
         this.checkIndex(index);
         if (index == 0) {
@@ -57,7 +65,7 @@ public class LinkedIterable<E> implements Iterable<E> {
         return result;
     }
 
-    public E get(int index) {
+    public synchronized E get(int index) {
         this.checkIndex(index);
         Node node = this.first;
         for (int i = 0; i < index; i++) {
@@ -66,7 +74,7 @@ public class LinkedIterable<E> implements Iterable<E> {
         return node.data;
     }
 
-    public Iterator<E> iterator() {
+    public synchronized Iterator<E> iterator() {
         return new Iterator<E>() {
             private Node nextNode = LinkedIterable.this.first;
             private int expectedModCount = LinkedIterable.this.modCount;
@@ -91,7 +99,7 @@ public class LinkedIterable<E> implements Iterable<E> {
         };
     }
 
-    private void checkIndex(int index) {
+    private synchronized void checkIndex(int index) {
         if (index >= this.size || index < 0) {
             throw new IndexOutOfBoundsException();
         }

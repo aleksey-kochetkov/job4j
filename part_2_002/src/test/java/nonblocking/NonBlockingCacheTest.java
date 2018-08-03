@@ -44,7 +44,6 @@ public class NonBlockingCacheTest {
             @Override
             public void run() {
                 Base model = new Base(3);
-                model.incVersion();
                 try {
                     cache.update(model);
                 } catch (OptimisticException exception) {
@@ -66,7 +65,9 @@ public class NonBlockingCacheTest {
     @Test(expected = OptimisticException.class)
     public void whenUpdateNotNewThenException() {
         NonBlockingCache cache = new NonBlockingCache();
-        cache.add(new Base(3));
+        Base model = new Base(3);
+        cache.add(model);
+        cache.update(model);
         Thread one = new Thread("one") {
             @Override
             public void run() {
@@ -96,7 +97,6 @@ public class NonBlockingCacheTest {
             @Override
             public void run() {
                 Base model = new Base(4);
-                model.incVersion();
                 try {
                     cache.delete(model);
                 } catch (OptimisticException exception) {
@@ -120,7 +120,6 @@ public class NonBlockingCacheTest {
         NonBlockingCache cache = new NonBlockingCache();
         Base model = new Base(5);
         cache.add(model);
-        model.incVersion();
         cache.delete(model);
         Thread one = new Thread("one") {
             @Override

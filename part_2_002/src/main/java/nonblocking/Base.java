@@ -16,6 +16,10 @@ public class Base {
         return this.version;
     }
 
+    public void resetVersion() {
+        this.version = 0;
+    }
+
     public void incVersion() {
         this.version++;
     }

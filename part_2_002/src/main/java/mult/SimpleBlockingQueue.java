@@ -13,22 +13,20 @@ public class SimpleBlockingQueue<T> {
     private Queue<T> queue = new LinkedList<>();
 
     public synchronized void offer(T value) {
+        if (this.queue.isEmpty()) {
+            this.notify();
+        }
         this.queue.offer(value);
-        this.notify();
     }
 
     public synchronized T poll() {
-        T result;
-        do {
-            result = this.queue.poll();
-            if (result == null) {
-                try {
-                    this.wait();
-                } catch (InterruptedException exception) {
-                    throw new RuntimeException(exception);
-                }
+        while (this.queue.isEmpty()) {
+            try {
+                this.wait();
+            } catch (InterruptedException exception) {
+                throw new RuntimeException(exception);
             }
-        } while (result == null);
-        return result;
+        }
+        return this.queue.poll();
     }
 }

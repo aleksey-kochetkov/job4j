@@ -8,7 +8,7 @@ public class SimpleBlockingQueueTest {
     private int[] result = new int[1000];
 
     @Test
-    public void when() {
+    public void whenComplexTest() {
         SimpleBlockingQueue<Integer> queue = new SimpleBlockingQueue<>();
         Thread producer = new Thread() {
             @Override

@@ -23,8 +23,4 @@ public class Base {
     public void incVersion() {
         this.version++;
     }
-
-    void setDeleted() {
-        this.version = -1;
-    }
 }

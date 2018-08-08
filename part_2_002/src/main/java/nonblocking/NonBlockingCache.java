@@ -19,30 +19,17 @@ public class NonBlockingCache {
     }
 
     public void update(Base model) {
-        update(model, false);
+        this.cache.compute(model.getId(), (k, v) -> {
+            if (model.getVersion() < v.getVersion()) {
+                throw new OptimisticException();
+            }
+            model.incVersion();
+            return model;
+        });
     }
 
 
     public void delete(Base model) {
-        update(model, true);
-    }
-
-    /**
-     * ввёл version равную -1 как признак того, что уже удалено
-     * @param model элемент кэша
-     */
-    private void update(Base model, boolean delete) {
-        this.cache.computeIfPresent(model.getId(), (k, v) -> {
-            if (model.getVersion() < v.getVersion()
-                || v.getVersion() == -1) {
-                throw new OptimisticException();
-            }
-            if (delete) {
-                model.setDeleted();
-            } else {
-                model.incVersion();
-            }
-            return model;
-        });
+        cache.remove(model.getId());
     }
 }

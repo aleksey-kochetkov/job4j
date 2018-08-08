@@ -4,7 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class NonBlockingCacheTest {
-    private OptimisticException exception;
+    private RuntimeException exception;
 
     @Before
     public void before() {
@@ -115,7 +115,7 @@ public class NonBlockingCacheTest {
         }
     }
 
-    @Test(expected = OptimisticException.class)
+    @Test(expected = NullPointerException.class)
     public void whenUpdateDeletedThenException() {
         NonBlockingCache cache = new NonBlockingCache();
         Base model = new Base(5);
@@ -126,7 +126,7 @@ public class NonBlockingCacheTest {
             public void run() {
                 try {
                     cache.update(new Base(5));
-                } catch (OptimisticException exception) {
+                } catch (NullPointerException exception) {
                     NonBlockingCacheTest.this.exception = exception;
                 }
             }

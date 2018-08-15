@@ -1,38 +1,63 @@
 package bomberman;
 
+import net.jcip.annotations.GuardedBy;
+import net.jcip.annotations.ThreadSafe;
+
+@ThreadSafe
 public class Hero {
     private final Board board;
+    @GuardedBy("this")
+    private int dx = 1;
+    @GuardedBy("this")
+    private int dy = 0;
 
     Hero(Board board) {
         this.board = board;
     }
 
     void run() {
-        Cell source = this.board.giveBirth();
+        Cell source = null;
+        for (int y = 0; y < this.board.height && source == null; y++) {
+            for (int x = 0; x < this.board.width && source == null; x++) {
+                source = this.board.giveBirth(x, y);
+            }
+        }
         Cell dest;
-        int dx = 1;
-        int dy = 0;
         System.out.format("%s:%s%n", Thread.currentThread().getName(), source.toString()); //test:
         while (!Thread.interrupted()) {
             try {
                 Thread.sleep(1000);
-                dest = new Cell(source.getX() + dx, source.getY() + dy);
-                while (!this.board.move(source, dest)) {
-                    if (dx != 0) {
-                        dy = dx;
-                        dx = 0;
-                    } else {
-                        dx = -dy;
-                        dy = 0;
-                    }
-                    dest = new Cell(source.getX() + dx, source.getY() + dy);
+                synchronized (this) {
+                    dest = new Cell(source.getX() + this.dx, source.getY() + this.dy);
                 }
-                source = dest;
-                System.out.format("%s:%s%n", Thread.currentThread().getName(), dest.toString()); //test:
+                if (this.board.move(source, dest)) {
+                    source = dest;
+                    System.out.format("%s:%s%n", Thread.currentThread().getName(), dest.toString()); //test:
+                }
             } catch (InterruptedException exception) {
                 break;
             }
         }
         System.out.format("%s:The End.%n", Thread.currentThread().getName()); //test:
+    }
+
+    synchronized void left() {
+        this.dx = -1;
+        this.dy = 0;
+    }
+
+    synchronized void right() {
+        this.dx = 1;
+        this.dy = 0;
+    }
+
+    synchronized void up() {
+        this.dx = 0;
+        this.dy = -1;
+    }
+
+    synchronized void down() {
+        this.dx = 0;
+        this.dy = 1;
     }
 }

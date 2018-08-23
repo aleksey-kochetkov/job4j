@@ -63,8 +63,7 @@ public class Tracker implements AutoCloseable {
     }
 
     private void executeDBSql(Scanner scanner) {
-        try {
-            Statement statement = this.connection.createStatement();
+        try (Statement statement = this.connection.createStatement()) {
             this.connection.setAutoCommit(false);
             while (scanner.hasNext()) {
                 statement.executeUpdate(scanner.next());

@@ -8,8 +8,7 @@ import java.util.Arrays;
  * @author Aleksey Kochetkov
  */
 public class MenuTracker {
-    public static int exitIndex;
-
+    int exitIndex;
     private Input input;
     private Tracker tracker;
     private List<UserAction> actions = new ArrayList<>();

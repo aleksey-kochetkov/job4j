@@ -11,7 +11,7 @@ public class ParallelSearchTest {
     public void when() {
         String[] inputExts = {"java"};
         ParallelSearch searcher = new ParallelSearch(
-           "D:\\projects\\job4j", "ArrayList", Arrays.asList(inputExts));
+                              "", "ArrayList", Arrays.asList(inputExts));
         searcher.init();
         assertThat(searcher.result().size(), greaterThan(0));
     }

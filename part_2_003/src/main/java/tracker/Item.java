@@ -51,8 +51,8 @@ public class Item {
         if (!(this.name == null ? other.name == null : this.name.equals(other.name))) {
             return false;
         }
-        if (!(this.description == null ? other.description == null :
-                           this.description.equals(other.description))) {
+        if (!(this.description == null ? other.description == null
+                         : this.description.equals(other.description))) {
             return false;
         }
         return true;

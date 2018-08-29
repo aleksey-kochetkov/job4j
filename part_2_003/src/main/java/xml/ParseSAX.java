@@ -17,15 +17,10 @@ public class ParseSAX extends DefaultHandler {
         this.source = source;
     }
 
-    public void run() {
-        try {
-            SAXParser parser = SAXParserFactory.newInstance().newSAXParser();
-            parser.parse(this.source, this);
-            System.out.format("sum:%d%n", this.sum);
-        } catch (ParserConfigurationException
-                 | SAXException | IOException exception) {
-            throw new RuntimeException(exception);
-        }
+    public void run() throws ParserConfigurationException, SAXException, IOException {
+        SAXParser parser = SAXParserFactory.newInstance().newSAXParser();
+        parser.parse(this.source, this);
+        System.out.format("sum:%d%n", this.sum);
     }
 
     @Override

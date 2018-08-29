@@ -24,7 +24,7 @@ public class StoreXML {
         this.source = source;
     }
 
-    private void selectFromDB() {
+    private void selectFromDB() throws SQLException {
         try (Connection connection = DriverManager.getConnection(this.source.getUrl())) {
             try (Statement statement = connection.createStatement()) {
                 ResultSet rs = statement.executeQuery("SELECT * FROM entry");
@@ -32,21 +32,15 @@ public class StoreXML {
                     this.xmlRoot.add(new Entry(rs.getInt("field")));
                 }
             }
-        } catch (SQLException exception) {
-            throw new RuntimeException(exception);
         }
     }
 
-    public void save() {
+    public void save() throws SQLException, JAXBException {
         selectFromDB();
-        try {
-            JAXBContext jaxbContext = JAXBContext.newInstance(XmlRoot.class);
-            Marshaller marshaller = jaxbContext.createMarshaller();
-            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-            marshaller.marshal(this.xmlRoot, this.target);
-        } catch (JAXBException exception) {
-            throw new RuntimeException(exception);
-        }
+        JAXBContext jaxbContext = JAXBContext.newInstance(XmlRoot.class);
+        Marshaller marshaller = jaxbContext.createMarshaller();
+        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+        marshaller.marshal(this.xmlRoot, this.target);
     }
 
     @XmlRootElement(name = "entries")

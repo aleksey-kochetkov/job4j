@@ -13,15 +13,16 @@ public class StoreSQL {
         this.config = config;
     }
 
-    public void generate(int n) {
+    public void generate(int n) throws SQLException {
         try (Connection connection = DriverManager.getConnection(this.config.getUrl())) {
             try (Statement statement = connection.createStatement()) {
                 statement.executeUpdate("DROP TABLE IF EXISTS entry");
                 statement.executeUpdate("CREATE TABLE entry ( "
                         + "  field INTEGER "
                         + ")");
-                PreparedStatement prepared =
-                        connection.prepareStatement("INSERT INTO entry VALUES (?)");
+            }
+            try (PreparedStatement prepared =
+                        connection.prepareStatement("INSERT INTO entry VALUES (?)")) {
                 connection.setAutoCommit(false);
                 for (int i = 0; i < n; i++) {
                     prepared.setInt(1, i);
@@ -29,8 +30,6 @@ public class StoreSQL {
                 }
                 connection.setAutoCommit(true);
             }
-        } catch (SQLException exception) {
-            throw new RuntimeException(exception);
         }
     }
 }

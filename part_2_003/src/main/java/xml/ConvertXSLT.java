@@ -18,14 +18,10 @@ public class ConvertXSLT {
         this.stylesheet = stylesheet;
     }
 
-    public void convert() {
+    public void convert() throws TransformerException {
         TransformerFactory factory = TransformerFactory.newInstance();
-        try {
-            Transformer transformer = factory.newTransformer(new StreamSource(
+        Transformer transformer = factory.newTransformer(new StreamSource(
                        this.getClass().getResourceAsStream(this.stylesheet)));
-            transformer.transform(new StreamSource(this.source), new StreamResult(this.result));
-        } catch (TransformerException exception) {
-            throw new RuntimeException(exception);
-        }
+        transformer.transform(new StreamSource(this.source), new StreamResult(this.result));
     }
 }

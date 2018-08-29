@@ -30,7 +30,6 @@ public class URLParser {
         String time = loadProperties().getProperty("cron.time");
         SchedulerFactory sf = new StdSchedulerFactory();
         Scheduler sched = sf.getScheduler();
-// Define the job and tie it to our class
         JobDetail job = JobBuilder.newJob(URLParserJob.class)
                                           .withIdentity("job1", "group1")
                                           .build();
@@ -39,7 +38,6 @@ public class URLParser {
             .withSchedule(CronScheduleBuilder.cronSchedule(time))
             .forJob("job1", "group1")
             .build();
-// Tell quartz to schedule the job using our trigger
         sched.scheduleJob(job, trigger);
         sched.start();
     }

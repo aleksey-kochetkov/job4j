@@ -11,6 +11,7 @@ import java.io.InputStream;
 import java.util.Scanner;
 import java.util.List;
 import java.util.Properties;
+import java.sql.DatabaseMetaData;
 
 public class DB implements AutoCloseable {
     private Properties properties;
@@ -22,38 +23,27 @@ public class DB implements AutoCloseable {
 
     private String getJdbcUrl() {
         return String.format("jdbc:%s:%s",
-                              this.properties.getProperty("jdbc.driver"),
-                                this.properties.getProperty("jdbc.url"));
+                this.properties.getProperty("jdbc.driver"),
+                this.properties.getProperty("jdbc.url"));
     }
 
     public void connect() {
         try {
             connection = DriverManager.getConnection(getJdbcUrl(),
-                            this.properties.getProperty("jdbc.username"),
-                           this.properties.getProperty("jdbc.password"));
-        } catch (SQLException e0) {
-            if ("3D000".equals(e0.getSQLState())) {
-                try {
-                    this.create();
-                } catch (SQLException e1) {
-                    throw new RuntimeException(e1);
-                }
+                    this.properties.getProperty("jdbc.username"),
+                    this.properties.getProperty("jdbc.password"));
+            if (!this.tableExists()) {
+                this.runCreateSQL();
             }
+        } catch (SQLException exception) {
+            throw new RuntimeException(exception);
         }
     }
 
-    private void create() throws SQLException {
-        String driver = String.format("jdbc:%s:",
-                             this.properties.getProperty("jdbc.driver"));
-        String database = this.properties.getProperty("jdbc.url");
-        try (Connection connection = DriverManager.getConnection(driver,
-                            this.properties.getProperty("jdbc.username"),
-                         this.properties.getProperty("jdbc.password"))) {
-            Statement statement = connection.createStatement();
-            statement.executeUpdate(String.format("CREATE DATABASE %s", database));
-        }
-        this.connect();
-        this.runCreateSQL();
+    private boolean tableExists() throws SQLException {
+        DatabaseMetaData meta = this.connection.getMetaData();
+        ResultSet rs = meta.getTables(null, null, null, new String[] {"TABLE"});
+        return rs.next();
     }
 
     private void runCreateSQL() throws SQLException {
@@ -84,18 +74,17 @@ public class DB implements AutoCloseable {
      * Общая транзакция не введена потому что в базе стоит проверка
      * на уникальность (descript, dt), и общая транзакция откатит весь
      * блок. А так выбрасывается только лишний INSERT.
+     *
      * @param positions список вакансий
      */
     public void insert(List<Position> positions) {
         try (PreparedStatement prepared = this.connection.prepareStatement(
-                  "INSERT INTO position (descript, dt) VALUES (?, ?)")) {
-//            this.connection.setAutoCommit(false);
+                "INSERT INTO position (descript, dt) VALUES (?, ?)")) {
             for (Position position : positions) {
                 prepared.setString(1, position.getDescription());
                 prepared.setTimestamp(2, new Timestamp(position.getDate().getTime()));
                 prepared.executeUpdate();
             }
-//            this.connection.setAutoCommit(true);
         } catch (SQLException exception) {
             if (!"23505".equals(exception.getSQLState())) {
                 throw new RuntimeException(exception);

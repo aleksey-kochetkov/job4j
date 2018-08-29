@@ -15,19 +15,20 @@ public class StoreSQL {
 
     public void generate(int n) {
         try (Connection connection = DriverManager.getConnection(this.config.getUrl())) {
-            Statement statement = connection.createStatement();
-            statement.executeUpdate("DROP TABLE IF EXISTS entry");
-            statement.executeUpdate("CREATE TABLE entry ( "
-                                  + "  field INTEGER "
-                                  + ")");
-            PreparedStatement prepared =
-                  connection.prepareStatement("INSERT INTO entry VALUES (?)");
-            connection.setAutoCommit(false);
-            for (int i = 0; i < n; i++) {
-                prepared.setInt(1, i);
-                prepared.executeUpdate();
+            try (Statement statement = connection.createStatement()) {
+                statement.executeUpdate("DROP TABLE IF EXISTS entry");
+                statement.executeUpdate("CREATE TABLE entry ( "
+                        + "  field INTEGER "
+                        + ")");
+                PreparedStatement prepared =
+                        connection.prepareStatement("INSERT INTO entry VALUES (?)");
+                connection.setAutoCommit(false);
+                for (int i = 0; i < n; i++) {
+                    prepared.setInt(1, i);
+                    prepared.executeUpdate();
+                }
+                connection.setAutoCommit(true);
             }
-            connection.setAutoCommit(true);
         } catch (SQLException exception) {
             throw new RuntimeException(exception);
         }

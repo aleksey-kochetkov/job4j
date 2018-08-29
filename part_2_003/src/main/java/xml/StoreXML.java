@@ -26,10 +26,11 @@ public class StoreXML {
 
     private void selectFromDB() {
         try (Connection connection = DriverManager.getConnection(this.source.getUrl())) {
-            Statement statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery("SELECT * FROM entry");
-            while (rs.next()) {
-                this.xmlRoot.add(new Entry(rs.getInt("field")));
+            try (Statement statement = connection.createStatement()) {
+                ResultSet rs = statement.executeQuery("SELECT * FROM entry");
+                while (rs.next()) {
+                    this.xmlRoot.add(new Entry(rs.getInt("field")));
+                }
             }
         } catch (SQLException exception) {
             throw new RuntimeException(exception);

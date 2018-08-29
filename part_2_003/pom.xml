@@ -8,10 +8,16 @@
         <version>2.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-
     <artifactId>part_2_003</artifactId>
+    <packaging>jar</packaging>
 
     <dependencies>
+        <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-assembly-plugin -->
+        <dependency>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-assembly-plugin</artifactId>
+            <version>3.1.0</version>
+        </dependency>
         <!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
         <dependency>
             <groupId>org.postgresql</groupId>
@@ -42,4 +48,38 @@
             <version>1.7.25</version>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <!-- NOTE: We don't need a groupId specification because the group is
+                     org.apache.maven.plugins ...which is assumed by default.
+                -->
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>3.1.0</version>
+                <configuration>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                    <!--finalName>test</finalName-->
+                    <appendAssemblyId>false</appendAssemblyId>
+                        <archive>
+                        <manifest>
+                            <mainClass>urlparse.URLParser</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+                <executions>
+                    <execution>
+                    <id>make-assembly</id> <!-- this is used for inheritance merges -->
+                    <phase>package</phase> <!-- bind to the packaging phase -->
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
 </project>

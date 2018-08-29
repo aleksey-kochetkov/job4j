@@ -53,16 +53,6 @@ public class URLParserJob implements Job {
 
     private void parsePositions() {
         for (int i = 1; i < 100; i++) {
-//        Authenticator.setDefault(
-//                new Authenticator() {
-//                    public PasswordAuthentication getPasswordAuthentication() {
-//                        return new PasswordAuthentication(
-//                                "kas65", "????????".toCharArray());
-//                    }
-//                }
-//        );
-//        Document doc = Jsoup.connect("http://sql.ru")
-//                                      .proxy("tu.komus.net", 3128).post();
             Document doc;
             try {
                 String url = String.format("http://sql.ru/forum/job-offers/%d", i);

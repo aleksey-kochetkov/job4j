@@ -15,13 +15,17 @@ public class PagePositions {
     private static final Pattern JPT = Pattern.compile("java", Pattern.CASE_INSENSITIVE);
     private boolean floorFound;
 
+    /** Разбор страницы форума. Пропустить закреплённые сообщения форума.
+     * @param doc Document
+     * @param floorDate нижнаяя граница даты
+     * @return коллекция вакансий
+     */
     public List<Position> parse(Document doc, Date floorDate) {
         Elements trs = doc.select("table.forumTable").first()
                                           .children().first().children();
         int i = 0;
         List<Position> positions = new ArrayList<>();
         for (Element tr : trs) {
-// пропустить закреплённые сообщения форума
             if (i++ <= 3) {
                 continue;
             }

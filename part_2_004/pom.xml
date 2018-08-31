@@ -9,7 +9,12 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>part_2_004</artifactId>
-    <packaging>war</packaging>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>1_hello</module>
+        <module>2_crud</module>
+    </modules>
 
     <dependencies>
         <!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->

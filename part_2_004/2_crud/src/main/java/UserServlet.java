@@ -35,7 +35,8 @@ public class UserServlet extends HttpServlet {
                           HttpServletResponse response)
                                    throws ServletException, IOException {
         int id = this.getValue(request.getParameter("id"), Integer.MIN_VALUE);
-        this.logic.delete(new User(id, request.getParameter("name")));
+        dispatcher.dispatch(request.getParameter("action"),
+                             new User(id, request.getParameter("name")));
         response.sendRedirect(String.format("%s%s",
                     request.getContextPath(), request.getServletPath()));
     }

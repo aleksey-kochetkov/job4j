@@ -1,3 +1,5 @@
+package e;
+
 import java.util.List;
 
 public interface Store {

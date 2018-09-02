@@ -6,6 +6,6 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>UserServlet</servlet-name>
-        <url-pattern>/2_crud</url-pattern>
+        <url-pattern>/list</url-pattern>
     </servlet-mapping>
 </web-app>

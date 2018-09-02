@@ -39,7 +39,12 @@ public class UserServlet extends HttpServlet {
               request.getContextPath(), u.getId(),
               request.getContextPath(), u.getId()));
         }
-        out.append("</table></body></html>");
+        out.append("<tr><td><td></td><td></td><td></td><td></td><td>\n"
+          + "<form action=\"" + request.getContextPath() + "/create\""
+          + " method=\"get\">\n"
+          + "<input type=\"submit\" value=\"Новый\"></form>"
+          + "</td></tr>\n"
+          + "</table></body></html>");
         out.flush();
     }
 
@@ -53,5 +58,7 @@ public class UserServlet extends HttpServlet {
         } catch (NumberFormatException exception) {
         }
         this.logic.delete(new User(id, request.getParameter("name")));
+        response.sendRedirect(String.format("%s%s",
+                    request.getContextPath(), request.getServletPath()));
     }
 }

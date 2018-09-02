@@ -32,5 +32,7 @@ public class UserCreateServlet extends HttpServlet {
         this.logic.add(new User(Integer.MIN_VALUE,
           request.getParameter("name"),
           request.getParameter("login"), request.getParameter("email")));
+        response.sendRedirect(String.format("%s/list",
+                                              request.getContextPath()));
     }
 }

@@ -23,6 +23,7 @@ public class UserServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request,
                          HttpServletResponse response)
                                    throws ServletException, IOException {
+        response.setContentType("text/html; charset=UTF-8");
         PrintWriter out = response.getWriter();
         for (User u : this.logic.findAll()) {
             out.format("%d %s%n", u.getId(), u.getName());

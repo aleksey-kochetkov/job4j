@@ -44,5 +44,7 @@ public class UserUpdateServlet extends HttpServlet {
         this.logic.update(new User(id,
           request.getParameter("name"),
           request.getParameter("login"), request.getParameter("email")));
+        response.sendRedirect(String.format("%s/list",
+                                              request.getContextPath()));
     }
 }

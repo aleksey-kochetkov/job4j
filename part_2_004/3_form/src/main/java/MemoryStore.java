@@ -1,10 +1,11 @@
 import java.util.List;
 import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public final class MemoryStore implements Store {
     private static final MemoryStore INSTANCE = new MemoryStore();
-    private static int nextId;
+    private static final AtomicInteger NEXT_ID = new AtomicInteger();
     private final List<User> store = new CopyOnWriteArrayList<>();
 
     public static MemoryStore getInstance() {
@@ -16,9 +17,7 @@ public final class MemoryStore implements Store {
 
     @Override
     public void add(User user) {
-        synchronized (MemoryStore.class) {
-            user.setId(nextId++);
-        }
+        user.setId(NEXT_ID.getAndIncrement());
         this.store.add(user);
     }
 

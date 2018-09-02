@@ -34,12 +34,19 @@ public class UserServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request,
                           HttpServletResponse response)
                                    throws ServletException, IOException {
-        int id = Integer.MIN_VALUE;
+        int id = this.getValue(request.getParameter("id"), Integer.MIN_VALUE);
+        this.logic.delete(new User(id, request.getParameter("name")));
+        response.sendRedirect(String.format("%s%s",
+                    request.getContextPath(), request.getServletPath()));
+    }
+
+    private int getValue(String string, int def) {
+        int result;
         try {
-            id = Integer.parseInt(request.getParameter("id"));
+            result = Integer.parseInt(string);
         } catch (NumberFormatException exception) {
+            result = def;
         }
-        dispatcher.dispatch(request.getParameter("action"),
-                             new User(id, request.getParameter("name")));
+        return result;
     }
 }

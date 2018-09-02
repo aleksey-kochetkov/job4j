@@ -5,7 +5,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public final class MemoryStore implements Store {
     private static final MemoryStore INSTANCE = new MemoryStore();
-    private static final AtomicInteger nextId = new AtomicInteger();
+    private static final AtomicInteger NEXT_ID = new AtomicInteger();
     private final List<User> store = new CopyOnWriteArrayList<>();
 
     public static MemoryStore getInstance() {
@@ -17,7 +17,7 @@ public final class MemoryStore implements Store {
 
     @Override
     public void add(User user) {
-        user.setId(nextId.getAndIncrement());
+        user.setId(NEXT_ID.getAndIncrement());
         this.store.add(user);
     }
 

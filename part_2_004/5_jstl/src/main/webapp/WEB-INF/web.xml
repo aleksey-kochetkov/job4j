@@ -1,0 +1,11 @@
+<web-app>
+    <servlet>
+        <servlet-name>UserServlet</servlet-name>
+        <servlet-class>e.UserServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UserServlet</servlet-name>
+        <url-pattern>/servlet</url-pattern>
+    </servlet-mapping>
+</web-app>

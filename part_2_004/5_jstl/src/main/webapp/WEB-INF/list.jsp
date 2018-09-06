@@ -25,28 +25,34 @@
             <td><c:out value="${user.login}"/></td>
             <td><c:out value="${user.email}"/></td>
             <jsp:useBean id="user" type="e.User"/>
-            <% String createDate = UserServlet.FMT.format(user.getCreateDate()); %>
-            <td><c:out value="${createDate}"/></td>
+            <td>${UserServlet.FMT.format(user.getCreateDate())}</td>
+            <td>${user.role.description}</td>
             <td>
-                <form action="${pageContext.request.contextPath}/servlet" method="get">
-                    <input type="hidden" name="id" value="${user.id}">
-                    <button type="submit" name="action" value="edit">Редактировать</button>
-                </form>
+                <c:if test="${operator.role.code == 'root' || operator.login == user.login}">
+                    <form action="${pageContext.request.contextPath}/servlet" method="get">
+                        <input type="hidden" name="id" value="${user.id}">
+                        <button type="submit" name="action" value="edit">Редактировать</button>
+                    </form>
+                </c:if>
             </td>
             <td>
-                <form action="${pageContext.request.contextPath}/servlet" method="post">
-                    <input type="hidden" name="id" value="${user.id}">
-                    <button type="submit" name="action" value="delete">Удалить</button>
-                </form>
+                <c:if test="${operator.role.code == 'root' || operator.login == user.login}">
+                    <form action="${pageContext.request.contextPath}/servlet" method="post">
+                        <input type="hidden" name="id" value="${user.id}">
+                        <button type="submit" name="action" value="delete">Удалить</button>
+                    </form>
+                </c:if>
             </td>
         </tr>
         </c:forEach>
         <tr>
-            <td></td><td></td><td></td><td></td><td></td>
+            <td></td><td></td><td></td><td></td><td></td><td></td>
             <td>
-                <form action="${pageContext.request.contextPath}/servlet" method="get">
-                    <button type="submit" name="action" value="create">Новый</button>
-                </form>
+                <c:if test="${operator.role.code == 'root'}">
+                    <form action="${pageContext.request.contextPath}/servlet" method="get">
+                        <button type="submit" name="action" value="create">Новый</button>
+                    </form>
+                </c:if>
             </td>
         </tr>
     </table>

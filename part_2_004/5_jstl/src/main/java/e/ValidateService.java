@@ -13,38 +13,78 @@ public final class ValidateService {
     private ValidateService() {
     }
 
-    public void add(User user) {
+    public void addUser(User user, User operator) {
+        if (!this.checkAccess(user, operator)) {
+            throw new IllegalArgumentException();
+        }
         if (user.getName() == null) {
             throw new IllegalArgumentException();
         }
-        this.store.add(user);
+        this.store.addUser(user);
     }
 
-    public void update(User user) {
-        if (this.store.findById(user.getId()) == null
+    public void updateUser(User user, User operator) {
+        if (!this.checkAccess(user, operator)) {
+            throw new IllegalArgumentException();
+        }
+        if (this.store.findUserById(user.getId()) == null
                      || user.getName() == null || user.getLogin() == null
                                             || user.getEmail() == null) {
             throw new IllegalArgumentException();
         }
-        this.store.update(user);
+        this.store.updateUser(user);
     }
 
-    public void delete(User user) {
-        if (this.store.findById(user.getId()) == null) {
+    public void deleteUser(User user, User operator) {
+        if (!this.checkAccess(user, operator)) {
             throw new IllegalArgumentException();
         }
-        this.store.delete(user);
+        if (this.store.findUserById(user.getId()) == null) {
+            throw new IllegalArgumentException();
+        }
+        this.store.deleteUser(user);
     }
 
-    public List<User> findAll() {
-        return this.store.findAll();
+    public List<User> findAllUsers() {
+        return this.store.findAllUsers();
     }
 
-    public User findById(int id) {
-        User result = this.store.findById(id);
+    public User findUserById(int id) {
+        User result = this.store.findUserById(id);
         if (result == null) {
             throw new IllegalArgumentException();
         }
         return result;
+    }
+
+    public User findUserByLogin(String login) {
+        User result = this.store.findUserByLogin(login);
+        if (result == null) {
+            throw new IllegalArgumentException();
+        }
+        return result;
+    }
+
+    public boolean isCredential(String login, String password) {
+        User user = this.store.findUserByLogin(login);
+        return user != null && password.equals(user.getPassword());
+    }
+
+    public List<Role> findAllRoles() {
+        return this.store.findAllRoles();
+    }
+
+    public Role findRoleByCode(String code) {
+        Role result = this.store.findRoleByCode(code);
+        if (result == null) {
+            throw new IllegalArgumentException();
+        }
+        return result;
+    }
+
+    private boolean checkAccess(User user, User operator) {
+        return "root".equals(operator.getRole().getCode())
+            || operator.getLogin().equals(user.getLogin())
+            || operator.getId() == user.getId();
     }
 }

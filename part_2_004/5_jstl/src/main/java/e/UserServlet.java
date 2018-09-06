@@ -14,14 +14,15 @@ public class UserServlet extends HttpServlet {
     private static final Logger LOGGER = LogManager.getLogger("UserServlet");
     public static final SimpleDateFormat FMT =
                                  new SimpleDateFormat("dd.MM.YYY HH:mm");
+    public static final String DEF = "user";
     private final ValidateService logic = ValidateService.getInstance();
     private final ActionDispatcher dispatcher = new ActionDispatcher();
 
     @Override
     public void init() {
-        this.dispatcher.load("add", this.logic::add);
-        this.dispatcher.load("update", this.logic::update);
-        this.dispatcher.load("delete", this.logic::delete);
+        this.dispatcher.load("create", this.logic::addUser);
+        this.dispatcher.load("edit", this.logic::updateUser);
+        this.dispatcher.load("deleteUser", this.logic::deleteUser);
     }
 
     @Override
@@ -40,9 +41,13 @@ public class UserServlet extends HttpServlet {
                                    throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         int id = this.getValue(request.getParameter("id"), Integer.MIN_VALUE);
+        String roleCode = request.getParameter("role");
         dispatcher.dispatch(request.getParameter("action"),
                                new User(id, request.getParameter("name"),
-          request.getParameter("login"), request.getParameter("email")));
+                                           request.getParameter("login"),
+         request.getParameter("email"), request.getParameter("password"),
+          roleCode == null ? null : this.logic.findRoleByCode(roleCode)),
+                   (User) request.getSession().getAttribute("operator"));
         this.forward("list", request, response);
     }
 
@@ -60,14 +65,21 @@ public class UserServlet extends HttpServlet {
       HttpServletResponse response) throws ServletException, IOException {
         String path;
         if ("create".equals(action)) {
-            path = "/WEB-INF/create.jsp";
+            path = "/WEB-INF/user.jsp";
+            request.setAttribute("title", "Создание");
+            request.setAttribute("roles", this.logic.findAllRoles());
+            request.setAttribute("roleCode", Role.DEF);
         } else if ("edit".equals(action)) {
-            path = "/WEB-INF/edit.jsp";
-            request.setAttribute("user", this.logic.findById(
-               getValue(request.getParameter("id"), Integer.MIN_VALUE)));
+            path = "/WEB-INF/user.jsp";
+            request.setAttribute("title", "Редактирование");
+            User user = this.logic.findUserById(
+                getValue(request.getParameter("id"), Integer.MIN_VALUE));
+            request.setAttribute("user", user);
+            request.setAttribute("roles", this.logic.findAllRoles());
+            request.setAttribute("roleCode", user.getRole().getCode());
         } else {
             path = "/WEB-INF/list.jsp";
-            request.setAttribute("users", this.logic.findAll());
+            request.setAttribute("users", this.logic.findAllUsers());
         }
         request.getRequestDispatcher(path).forward(request, response);
     }

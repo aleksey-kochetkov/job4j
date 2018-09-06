@@ -3,9 +3,13 @@ package e;
 import java.util.List;
 
 public interface Store {
-    void add(User user);
-    void update(User user);
-    void delete(User user);
-    List<User> findAll();
-    User findById(int id);
+    void addUser(User user);
+    void updateUser(User user);
+    void deleteUser(User user);
+    List<User> findAllUsers();
+    User findUserById(int id);
+    User findUserByLogin(String login);
+    void addRole(Role role);
+    List<Role> findAllRoles();
+    Role findRoleByCode(String login);
 }

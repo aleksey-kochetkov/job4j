@@ -4,7 +4,7 @@ import java.util.List;
 
 public final class ValidateService {
     private static final ValidateService INSTANCE = new ValidateService();
-    private final Store store = MemoryStore.getInstance();
+    private final Store store = DBStore.getInstance().init();
 
     public static ValidateService getInstance() {
         return INSTANCE;
@@ -80,6 +80,14 @@ public final class ValidateService {
             throw new IllegalArgumentException();
         }
         return result;
+    }
+
+    public void closeStore() {
+        try {
+             this.store.close();
+        } catch (Exception exception) {
+            throw new RuntimeException(exception);
+        }
     }
 
     private boolean checkAccess(User user, User operator) {

@@ -2,7 +2,7 @@ package e;
 
 import java.util.List;
 
-public interface Store {
+public interface Store extends AutoCloseable {
     void addUser(User user);
     void updateUser(User user);
     void deleteUser(User user);

@@ -11,9 +11,15 @@ public class User {
     private String password;
     private Role role;
 
-    public User(int id, String name) {
+    public User(int id, String name, String login, String email,
+                           Date createDate, String password, Role role) {
         this.id = id;
         this.name = name;
+        this.login = login;
+        this.email = email;
+        this.createDate = createDate;
+        this.password = password;
+        this.role = role;
     }
 
     public User(int id, String name, String login, String email,

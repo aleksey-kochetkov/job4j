@@ -22,7 +22,7 @@ public class UserServlet extends HttpServlet {
     public void init() {
         this.dispatcher.load("create", this.logic::addUser);
         this.dispatcher.load("edit", this.logic::updateUser);
-        this.dispatcher.load("deleteUser", this.logic::deleteUser);
+        this.dispatcher.load("delete", this.logic::deleteUser);
     }
 
     @Override
@@ -49,6 +49,11 @@ public class UserServlet extends HttpServlet {
           roleCode == null ? null : this.logic.findRoleByCode(roleCode)),
                    (User) request.getSession().getAttribute("operator"));
         this.forward("list", request, response);
+    }
+
+    @Override
+    public void destroy() {
+        this.logic.closeStore();
     }
 
     private int getValue(String string, int def) {

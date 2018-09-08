@@ -29,6 +29,10 @@ public final class MemoryStore implements Store {
     }
 
     @Override
+    public void close() {
+    }
+
+    @Override
     public void addUser(User user) {
         user.setId(NEXT_ID.getAndIncrement());
         this.users.add(user);

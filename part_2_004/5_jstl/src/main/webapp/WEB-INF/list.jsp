@@ -16,6 +16,7 @@
                 <th>Логин</th>
                 <th>Email</th>
                 <th>Создан</th>
+                <th>Роль</th>
             </tr>
         </thead>
         <c:forEach items="${users}" var="user">

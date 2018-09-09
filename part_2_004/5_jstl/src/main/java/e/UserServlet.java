@@ -11,11 +11,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.ServletException;
 
 public class UserServlet extends HttpServlet {
-    private static final Logger LOGGER = LogManager.getLogger("UserServlet");
+    private static final Logger LOGGER = LogManager.getLogger();
     public static final SimpleDateFormat FMT =
                                  new SimpleDateFormat("dd.MM.YYY HH:mm");
     public static final String DEF = "user";
-    private final ValidateService logic = ValidateService.getInstance();
+    private final Validate logic = ValidateService.getInstance();
     private final ActionDispatcher dispatcher = new ActionDispatcher();
 
     @Override

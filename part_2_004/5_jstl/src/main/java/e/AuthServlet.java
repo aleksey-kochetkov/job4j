@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.ServletException;
 
 public class AuthServlet extends HttpServlet {
-    private final ValidateService logic = ValidateService.getInstance();
+    private final Validate logic = ValidateService.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest request,

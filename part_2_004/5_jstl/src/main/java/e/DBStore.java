@@ -11,10 +11,10 @@ import java.sql.SQLException;
 import org.apache.commons.dbcp2.BasicDataSource;
 
 public final class DBStore implements Store {
-    private static final DBStore INSTANCE = new DBStore();
     private static final BasicDataSource SOURCE = new BasicDataSource();
+    private static final DBStore INSTANCE = new DBStore().init();
 
-    public static DBStore getInstance() {
+    public static Store getInstance() {
         return INSTANCE;
     }
 

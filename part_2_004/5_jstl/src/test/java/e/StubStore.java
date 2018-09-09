@@ -6,20 +6,12 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Predicate;
 
-public final class MemoryStore implements Store {
-    private static final AtomicInteger NEXT_ID = new AtomicInteger();
-    private static final MemoryStore INSTANCE = new MemoryStore().init();
+public final class StubStore implements Store {
+    private final AtomicInteger nextId = new AtomicInteger();
     private final List<User> users = new CopyOnWriteArrayList<>();
     private final List<Role> roles = new CopyOnWriteArrayList<>();
 
-    public static Store getInstance() {
-        return INSTANCE;
-    }
-
-    private MemoryStore() {
-    }
-
-    private MemoryStore init() {
+    StubStore init() {
         Role rootRole = new Role("root", "Администратор");
         this.addRole(rootRole);
         this.addRole(new Role("user", "Пользователь"));
@@ -34,7 +26,7 @@ public final class MemoryStore implements Store {
 
     @Override
     public void addUser(User user) {
-        user.setId(NEXT_ID.getAndIncrement());
+        user.setId(nextId.getAndIncrement());
         this.users.add(user);
     }
 

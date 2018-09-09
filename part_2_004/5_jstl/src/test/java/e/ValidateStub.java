@@ -2,16 +2,8 @@ package e;
 
 import java.util.List;
 
-public final class ValidateService implements Validate {
-    private static final ValidateService INSTANCE = new ValidateService();
-    private final Store store = DBStore.getInstance();
-
-    public static Validate getInstance() {
-        return INSTANCE;
-    }
-
-    private ValidateService() {
-    }
+public final class ValidateStub implements Validate {
+    private final Store store = new StubStore().init();
 
     @Override
     public void addUser(User user, User operator) {

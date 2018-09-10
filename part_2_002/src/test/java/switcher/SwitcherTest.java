@@ -10,7 +10,7 @@ public class SwitcherTest {
         Switcher switcher = new Switcher();
         switcher.start();
         try {
-            Thread.sleep(300);
+            Thread.sleep(400);
         } catch (InterruptedException exception) {
             throw new RuntimeException(exception);
         }

@@ -16,6 +16,7 @@
         <module>2_crud</module>
         <module>3_form</module>
         <module>5_jstl</module>
+        <module>8_front</module>
     </modules>
 
     <dependencies>

@@ -52,7 +52,7 @@
       <tr>
         <th>Имя</th>
         <th>Фамилия</th>
-        <th>Почта</th>
+        <th>О себе</th>
       </tr>
     </thead>
     <tbody>
@@ -80,13 +80,23 @@
   </table>
 </div>
 <script>
+    function addRow(name, surname, comment) {
+        // alert(name);
+        $("table tr:last").after("<tr><td>" + name +"</td>"
+            + "<td>" + surname + "</td>"
+            + "<td>" + comment + "</td></tr>");
+    }
+
     function validate() {
         var result = true;
-        if (!$("#name").val()) {
+        var name = $("#name").val();
+        var surname = $("#surname").val();
+        var comment = $("#comment").val();
+        if (!name) {
             result = false;
             alert("Необходимо ввести имя");
         }
-        if (!$("#surname").val()) {
+        if (!surname) {
             result = false;
             alert("Необходимо ввести фамилию");
         }
@@ -94,12 +104,16 @@
             result = false;
             alert("Необходимо ввести пол");
         }
-        if (!$("#comment").val()) {
+        if (!comment) {
             result = false;
             alert("Необходимо написать о себе");
         }
-        return result;
+        if (result) {
+            addRow(name, surname, comment);
+        }
+        return false;
   }
+
   $("form").attr("onsubmit", "return validate()");
 </script>
 </body>

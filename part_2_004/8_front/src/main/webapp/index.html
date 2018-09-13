@@ -43,7 +43,7 @@
     </div>
     <div class="form-group">
       <div class="col-sm-offset-2 col-sm-10">
-        <button type="submit" class="btn btn-default">Отправить</button>
+        <button class="btn btn-default">Отправить</button>
       </div>
     </div>
   </form>
@@ -87,11 +87,8 @@
             + "<td>" + comment + "</td></tr>");
     }
 
-    function validate() {
+    function validate(name, surname, comment) {
         var result = true;
-        var name = $("#name").val();
-        var surname = $("#surname").val();
-        var comment = $("#comment").val();
         if (!name) {
             result = false;
             alert("Необходимо ввести имя");
@@ -108,13 +105,29 @@
             result = false;
             alert("Необходимо написать о себе");
         }
-        if (result) {
-            addRow(name, surname, comment);
-        }
-        return false;
-  }
+        return result;
+    }
 
-  $("form").attr("onsubmit", "return validate()");
+    function callback(data, status) {
+        addRow(data.name, data.surname, data.comment);
+    }
+
+    function process() {
+        var name = $("#name").val();
+        var surname = $("#surname").val();
+        var comment = $("#comment").val();
+        if (validate(name, surname, comment)) {
+          $.ajax({
+              type: "POST",
+              url: "json",
+              dataType: "json",
+              data: JSON.stringify({"name":name,"surname":surname,"comment":comment}),
+              success: callback
+          });
+        }
+    }
+
+    $("button").attr("onclick", "process()");
 </script>
 </body>
 </html>

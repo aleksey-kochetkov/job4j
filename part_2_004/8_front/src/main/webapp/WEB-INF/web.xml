@@ -1,2 +1,10 @@
 <web-app>
+    <servlet>
+        <servlet-name>JsonServlet</servlet-name>
+        <servlet-class>e.JsonServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>JsonServlet</servlet-name>
+        <url-pattern>/json</url-pattern>
+    </servlet-mapping>
 </web-app>

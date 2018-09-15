@@ -2,6 +2,7 @@ package e;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Predicate;
@@ -10,13 +11,23 @@ public final class StubStore implements Store {
     private final AtomicInteger nextId = new AtomicInteger();
     private final List<User> users = new CopyOnWriteArrayList<>();
     private final List<Role> roles = new CopyOnWriteArrayList<>();
+    private final List<Country> countries = new CopyOnWriteArrayList<>();
+    private final List<City> cities = new CopyOnWriteArrayList<>();
 
     StubStore init() {
+        Country country = new Country("7", "РФ");
+        this.addCountry(country);
+        City city = new City("7495", "Москва", country);
+        this.addCity(city);
+        country = new Country("20", "Египет");
+        this.addCountry(country);
+        city = new City("202", "Каир", country);
+        this.addCity(city);
         Role rootRole = new Role("root", "Администратор");
         this.addRole(rootRole);
         this.addRole(new Role("user", "Пользователь"));
         this.addUser(new User(
-                    -1, "Руфь", "root", "ruth@ya.ru", "ruth", rootRole));
+              -1, "Руфь", "root", "ruth@ya.ru", "ruth", rootRole, city));
         return this;
     }
 
@@ -47,7 +58,7 @@ public final class StubStore implements Store {
 
     @Override
     public List<User> findAllUsers() {
-        return new ArrayList<>(this.users);
+        return Collections.unmodifiableList(this.users);
     }
 
     @Override
@@ -81,7 +92,6 @@ public final class StubStore implements Store {
         return this.getUserIndex(u -> u.getId() == id);
     }
 
-
     @Override
     public void addRole(Role role) {
         this.roles.add(role);
@@ -89,7 +99,7 @@ public final class StubStore implements Store {
 
     @Override
     public List<Role> findAllRoles() {
-        return new ArrayList<>(this.roles);
+        return Collections.unmodifiableList(this.roles);
     }
 
     @Override
@@ -102,10 +112,54 @@ public final class StubStore implements Store {
         return result;
     }
 
+    public void addCountry(Country country) {
+        this.countries.add(country);
+    }
+
+    @Override
+    public Country findCountryByCode(String code) {
+        return null;
+    }
+
+    @Override
+    public List<Country> findAllCountries() {
+        return Collections.unmodifiableList(this.countries);
+    }
+
+    public void addCity(City city) {
+        this.cities.add(city);
+    }
+
+    @Override
+    public City findCityByCode(String code) {
+        City result = null;
+        int index = this.getCityIndex(c -> c.getCode().equals(code));
+        if (index >= 0) {
+            result = this.cities.get(index);
+        }
+        return result;
+    }
+
+    @Override
+    public List<City> findCitiesByCountryCode(String countryCode) {
+        return null;
+    }
+
     private int getRoleIndex(Predicate<Role> predicate) {
         int result = -1;
         for (int i = 0; i < this.roles.size(); i++) {
             if (predicate.test(this.roles.get(i))) {
+                result = i;
+                break;
+            }
+        }
+        return result;
+    }
+
+    private int getCityIndex(Predicate<City> predicate) {
+        int result = -1;
+        for (int i = 0; i < this.cities.size(); i++) {
+            if (predicate.test(this.cities.get(i))) {
                 result = i;
                 break;
             }

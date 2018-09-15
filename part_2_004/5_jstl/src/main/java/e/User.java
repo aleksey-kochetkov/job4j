@@ -10,20 +10,76 @@ public class User {
     private Date createDate;
     private String password;
     private Role role;
+    private City city;
 
-    public User(int id, String name, String login, String email,
-                           Date createDate, String password, Role role) {
-        this.id = id;
-        this.name = name;
-        this.login = login;
-        this.email = email;
-        this.createDate = createDate;
-        this.password = password;
-        this.role = role;
+    public static class Builder {
+        private int id;
+        private String name;
+        private String login;
+        private String email;
+        private Date createDate;
+        private String password;
+        private Role role;
+        private City city;
+
+        public Builder withId(int id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder withName(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public Builder withLogin(String login) {
+            this.login = login;
+            return this;
+        }
+
+        public Builder withEmail(String email) {
+            this.email = email;
+            return this;
+        }
+
+        public Builder withCreateDate(Date createDate) {
+            this.createDate = createDate;
+            return this;
+        }
+
+        public Builder withPassword(String password) {
+            this.password = password;
+            return this;
+        }
+
+        public Builder withRole(Role role) {
+            this.role = role;
+            return this;
+        }
+
+        public Builder withCity(City city) {
+            this.city = city;
+            return this;
+        }
+
+        public User build() {
+            return new User(this);
+        }
+    }
+
+    public User(Builder builder) {
+        this.id = builder.id;
+        this.name = builder.name;
+        this.login = builder.login;
+        this.email = builder.email;
+        this.createDate = builder.createDate;
+        this.password = builder.password;
+        this.role = builder.role;
+        this.city = builder.city;
     }
 
     public User(int id, String name, String login, String email,
-                                            String password, Role role) {
+                                 String password, Role role, City city) {
         this.id = id;
         this.name = name;
         this.login = login;
@@ -31,6 +87,7 @@ public class User {
         this.createDate = new Date();
         this.password = password;
         this.role = role;
+        this.city = city;
     }
 
     public void setId(int id) {
@@ -82,5 +139,9 @@ public class User {
 
     public Role getRole() {
         return this.role;
+    }
+
+    public City getCity() {
+        return this.city;
     }
 }

@@ -42,11 +42,13 @@ public class UserServlet extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         int id = this.getValue(request.getParameter("id"), Integer.MIN_VALUE);
         String roleCode = request.getParameter("role");
+        String cityCode = request.getParameter("city");
         dispatcher.dispatch(request.getParameter("action"),
                                new User(id, request.getParameter("name"),
                                            request.getParameter("login"),
          request.getParameter("email"), request.getParameter("password"),
-          roleCode == null ? null : this.logic.findRoleByCode(roleCode)),
+           roleCode == null ? null : this.logic.findRoleByCode(roleCode),
+          cityCode == null ? null : this.logic.findCityByCode(cityCode)),
                    (User) request.getSession().getAttribute("operator"));
         this.forward("list", request, response);
     }
@@ -71,17 +73,22 @@ public class UserServlet extends HttpServlet {
         String path;
         if ("create".equals(action)) {
             path = "/WEB-INF/user.jsp";
-            request.setAttribute("title", "Создание");
             request.setAttribute("roles", this.logic.findAllRoles());
             request.setAttribute("roleCode", Role.DEF);
+            request.setAttribute("countries", this.logic.findAllCountries());
         } else if ("edit".equals(action)) {
             path = "/WEB-INF/user.jsp";
-            request.setAttribute("title", "Редактирование");
+            request.setAttribute("edit", "true");
             User user = this.logic.findUserById(
                 getValue(request.getParameter("id"), Integer.MIN_VALUE));
             request.setAttribute("user", user);
             request.setAttribute("roles", this.logic.findAllRoles());
             request.setAttribute("roleCode", user.getRole().getCode());
+            request.setAttribute("countries", this.logic.findAllCountries());
+            request.setAttribute("countryCode", user.getCity().getCountry().getCode());
+            request.setAttribute("cities", this.logic.findCitiesByCountryCode(
+                                 user.getCity().getCountry().getCode()));
+            request.setAttribute("cityCode", user.getCity().getCode());
         } else {
             path = "/WEB-INF/list.jsp";
             request.setAttribute("users", this.logic.findAllUsers());

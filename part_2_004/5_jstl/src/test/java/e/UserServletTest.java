@@ -51,7 +51,7 @@ public class UserServletTest {
         PowerMockito.mockStatic(ValidateService.class);
         when(ValidateService.getInstance()).thenReturn(validate);
         User user = new User(-1, "Принцесса", "принцесса", "принцесса@ya.ru", "*",
-                                        validate.findRoleByCode("user"));
+          validate.findRoleByCode("user"), validate.findCityByCode("7495"));
         User operator = validate.findUserByLogin("root");
         validate.addUser(user, operator);
         UserServlet servlet = new UserServlet();
@@ -78,7 +78,7 @@ public class UserServletTest {
         PowerMockito.mockStatic(ValidateService.class);
         when(ValidateService.getInstance()).thenReturn(validate);
         User user = new User(-1, "Принцесса", "принцесса", "принцесса@ya.ru", "*",
-                                        validate.findRoleByCode("user"));
+          validate.findRoleByCode("user"), validate.findCityByCode("7495"));
         User operator = validate.findUserByLogin("root");
         validate.addUser(user, operator);
         UserServlet servlet = new UserServlet();

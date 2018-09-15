@@ -12,5 +12,8 @@ public interface Validate {
     boolean isCredential(String login, String password);
     List<Role> findAllRoles();
     Role findRoleByCode(String code);
+    List<Country> findAllCountries();
+    City findCityByCode(String code);
+    List<City> findCitiesByCountryCode(String countryCode);
     void closeStore();
 }

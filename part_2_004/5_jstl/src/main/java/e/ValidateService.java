@@ -92,6 +92,25 @@ public final class ValidateService implements Validate {
     }
 
     @Override
+    public List<Country> findAllCountries() {
+        return this.store.findAllCountries();
+    }
+
+    @Override
+    public City findCityByCode(String code) {
+        City result = this.store.findCityByCode(code);
+        if (result == null) {
+            throw new IllegalArgumentException();
+        }
+        return result;
+    }
+
+    @Override
+    public List<City> findCitiesByCountryCode(String countryCode) {
+        return this.store.findCitiesByCountryCode(countryCode);
+    }
+
+    @Override
     public void closeStore() {
         try {
              this.store.close();

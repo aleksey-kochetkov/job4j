@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>To-do List</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+  <div class="container-fluid">
+    <div class="input-group">
+      <input class="form-control" type="text" id="descript" placeholder="Текст задания">
+      <div class="input-group-btn">
+        <button class="btn btn-default">
+          <i class="glyphicon glyphicon-plus"></i>
+        </button>
+      </div>
+    </div>
+    <div class="checkbox">
+      <label><input type="checkbox" id="done">включить выполненные</label>
+    </div>
+  </div>
+  <table class="table">
+  </table>
+  <script>
+    function trHtml(id, descript, created, done) {
+        return "<td>" + id +"</td>"
+             + "<td>" + descript + "</td>"
+             + "<td>" + created + "</td>"
+             + "<td><input type='checkbox' " + (done ? " checked" : "")
+             + " onchange='setDone(this, " + id + ")'></td>";
+    }
+    function rowHtml(id, descript, created, done) {
+      return "<tr id='" + id + "'>" + trHtml(id, descript, created, done)
+           + "</tr>";
+    }
+    function addFirstRow(id, descript, created, done) {
+      $("table").html(rowHtml(id, descript, created, done));
+    }
+    function addRow(id, descript, created, done) {
+      $("table tr:last").after(rowHtml(id, descript, created, done));
+    }
+    // addFirstRow(1, "Задача 1", "2018-09-27 20:11", false);
+    // addRow(2, "Задача 2", "2018-09-27 20:12", true);
+    // addRow(3, "Задача 3", "2018-09-27 20:13", false);
+    function addCallback(data, status) {
+      if ($("table tr").length == 0) {
+        addFirstRow(data.id, data.descript, data.created, data.done);
+      } else {
+        addRow(data.id, data.descript, data.created, data.done)
+      }
+    }
+    function add() {
+      $.ajax({
+        type: "POST",
+        url: "add",
+        data: {descript: $("#descript").val()},
+        success: addCallback
+      });
+    }
+    function listCallback(data, status) {
+      $("table").html(null);
+      for(var i = 0; i < data.length; i++) {
+           addCallback(data[i], status);
+      }
+    }
+    function lst() {
+      $.ajax({
+        type: "POST",
+        url: "list",
+        data: {done: $("#done").prop("checked")},
+        success: listCallback
+      });
+    }
+    function setDoneCallback(data, status) {
+      $("#" + data.id).html(trHtml(
+                       data.id, data.descript, data.created, data.done));
+    }
+    function setDone(input, id) {
+        // alert(input.checked);
+      $.ajax({
+        type: "POST",
+        url: "setDone",
+        data: {id: id, done: input.checked},
+        success: setDoneCallback
+      });
+    }
+    lst();
+    $("button").attr("onclick", "add()");
+    $("#done").attr("onchange", "lst()");
+  </script>
+</body>
+</html>

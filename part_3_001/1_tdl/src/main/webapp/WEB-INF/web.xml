@@ -1,0 +1,26 @@
+<web-app>
+    <servlet>
+        <servlet-name>AddServlet</servlet-name>
+        <servlet-class>e.AddServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AddServlet</servlet-name>
+        <url-pattern>/add</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>ListServlet</servlet-name>
+        <servlet-class>e.ListServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ListServlet</servlet-name>
+        <url-pattern>/list</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>SetDoneServlet</servlet-name>
+        <servlet-class>e.SetDoneServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>SetDoneServlet</servlet-name>
+        <url-pattern>/setDone</url-pattern>
+    </servlet-mapping>
+</web-app>

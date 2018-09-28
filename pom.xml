@@ -22,6 +22,7 @@
         <module>part_2_002</module>
         <module>part_2_003</module>
         <module>part_2_004</module>
+        <module>part_3_001</module>
     </modules>
   
   <dependencies>

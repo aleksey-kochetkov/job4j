@@ -1,0 +1,11 @@
+<hibernate-configuration>
+    <session-factory>
+        <property name="connection.driver_class">org.postgresql.Driver</property>
+        <property name="connection.url">jdbc:postgresql:todolist</property>
+        <property name="connection.username">postgres</property>
+        <property name="connection.password">password</property>
+        <property name="dialect">org.hibernate.dialect.PostgreSQL94Dialect</property>
+
+        <mapping resource="e/Item.hbm.xml"/>
+    </session-factory>
+</hibernate-configuration>

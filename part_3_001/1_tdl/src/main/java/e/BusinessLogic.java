@@ -11,6 +11,10 @@ public class BusinessLogic {
     private SessionFactory factory = new Configuration()
                                       .configure().buildSessionFactory();
 
+    void close() {
+        this.factory.close();
+    }
+
     Item createItem(String descript) {
         Item item = new Item(descript);
         wrapper(session -> session.save(item));

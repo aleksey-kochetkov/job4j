@@ -13,6 +13,9 @@
 
     <modules>
         <module>1_tdl</module>
+		<module>2a_hbmxml</module>
+		<module>2b_hbmann</module>
+		<module>2c_car</module>
     </modules>
 
     <dependencies>

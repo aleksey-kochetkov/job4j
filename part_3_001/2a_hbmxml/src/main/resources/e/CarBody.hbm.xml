@@ -1,0 +1,8 @@
+<hibernate-mapping>
+    <class name="e.CarBody" table="car_body">
+        <id name="id" column="id">
+            <generator class="identity"/>
+        </id>
+        <property name="descript" column="descript"/>
+    </class>
+</hibernate-mapping>

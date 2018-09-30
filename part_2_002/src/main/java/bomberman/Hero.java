@@ -23,7 +23,6 @@ public class Hero {
             }
         }
         Cell dest;
-        System.out.format("%s:%s%n", Thread.currentThread().getName(), source.toString()); //test:
         while (!Thread.interrupted()) {
             try {
                 Thread.sleep(1000);
@@ -32,13 +31,11 @@ public class Hero {
                 }
                 if (this.board.move(source, dest)) {
                     source = dest;
-                    System.out.format("%s:%s%n", Thread.currentThread().getName(), dest.toString()); //test:
                 }
             } catch (InterruptedException exception) {
                 break;
             }
         }
-        System.out.format("%s:The End.%n", Thread.currentThread().getName()); //test:
     }
 
     synchronized void left() {

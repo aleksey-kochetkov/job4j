@@ -31,4 +31,9 @@ public class ListServlet extends HttpServlet {
             generator.writeEndArray();
         }
     }
+
+    @Override
+    public void destroy() {
+        this.logic.close();
+    }
 }

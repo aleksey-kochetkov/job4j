@@ -20,7 +20,6 @@ public class Monster {
         Cell dest;
         int dx = 1;
         int dy = 0;
-//        System.out.format("%s:%s%n", Thread.currentThread().getName(), source.toString()); //test:
         while (!Thread.interrupted()) {
             try {
                 Thread.sleep(1000);
@@ -36,11 +35,9 @@ public class Monster {
                     dest = new Cell(source.getX() + dx, source.getY() + dy);
                 }
                 source = dest;
-//                System.out.format("%s:%s%n", Thread.currentThread().getName(), dest.toString()); //test:
             } catch (InterruptedException exception) {
                 break;
             }
         }
-//        System.out.format("%s:The End.%n", Thread.currentThread().getName()); //test:
     }
 }

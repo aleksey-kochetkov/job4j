@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.function.Function;
 
 public class BusinessLogic {
-    private SessionFactory factory = new Configuration()
+    private final SessionFactory factory = new Configuration()
                                       .configure().buildSessionFactory();
 
     void close() {

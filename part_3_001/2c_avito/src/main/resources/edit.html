@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Автомобили</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <style>
+ /* The switch - the box around the slider */
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 60px;
+      height: 34px;
+    }
+/* Hide default HTML checkbox */
+    .switch input {display:none;}
+/* The slider */
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      -webkit-transition: .4s;
+      transition: .4s;
+    }
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 26px;
+      width: 26px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      -webkit-transition: .4s;
+      transition: .4s;
+    }
+    input:checked + .slider {
+      background-color: #2196F3;
+    }
+    input:focus + .slider {
+      box-shadow: 0 0 1px #2196F3;
+    }
+    input:checked + .slider:before {
+      -webkit-transform: translateX(26px);
+      -ms-transform: translateX(26px);
+      transform: translateX(26px);
+    }
+/* Rounded sliders */
+    .slider.round {
+      border-radius: 34px;
+    }
+    .slider.round:before {
+      border-radius: 50%;
+    }
+  </style>
+</head>
+<body>
+
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">Подать объявление</a>
+    </div>
+    <div class="navbar-form navbar-right" action="" method="post">
+      <a class="nav-link" href="#">Иркалий</a>
+    </div>
+  </div>
+</nav>
+
+<div class="container">
+  <form class="form-horizontal" id="mainForm">
+    <div class="form-group">
+      <label class="control-label col-sm-2" for="mark">Марка</label>
+      <div class="col-sm-8">
+        <select class="form-control" id="mark" name="mark">
+          <option disabled selected>—</option>
+          <option>Avito</option>
+          <option>Happy</option>
+          <option>Mach</option>
+          <option>Shaur</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label col-sm-2" for="model">Модель</label>
+      <div class="col-sm-8">
+        <select class="form-control" id="model" name="model">
+          <option disabled selected>—</option>
+          <option>1</option>
+          <option>2</option>
+          <option>3</option>
+          <option>4</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label col-sm-2" for="year">Год</label>
+      <div class="col-sm-8">
+        <select class="form-control" id="year" name="year">
+          <option disabled selected>—</option>
+          <option>2011</option>
+          <option>2010</option>
+          <option>2009</option>
+          <option>2008</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label col-sm-2" for="km">Пробег</label>
+      <div class="col-sm-7">
+        <input class="form-control" type="text" id="km" name="km">
+      </div>
+      <div class="col-sm-1">км</div>
+    </div>
+    <div class="form-group">
+      <label class="control-label col-sm-2" for="carBody">Кузов</label>
+      <div class="col-sm-8">
+        <select class="form-control" id="carBody" name="carBody">
+          <option disabled selected>—</option>
+          <option>Седан</option>
+          <option>Хетчбэк</option>
+          <option>Универсал</option>
+          <option>Внедорожник</option>
+          <option>Кабриолет</option>
+          <option>Купе</option>
+          <option>Лимузин</option>
+          <option>Минивэн</option>
+          <option>Пикап</option>
+          <option>Фургон</option>
+          <option>Микроавтобус</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label col-sm-2" for="engine">Двигатель</label>
+      <div class="col-sm-8">
+        <div class="btn-group" data-toggle="buttons">
+          <label class="btn btn-default">
+            <input type="radio" name="engine" value="1">Бензин
+          </label>
+          <label class="btn btn-default active">
+            <input type="radio" name="engine" value="2" checked>Дизель
+          </label>
+          <label class="btn btn-default">
+            <input type="radio" name="engine" value="3">Гибрид
+          </label>
+          <label class="btn btn-default">
+            <input type="radio" name="engine" value="4">Электро
+          </label>
+          <label class="btn btn-default">
+            <input type="radio" name="engine" value="5">Газ
+          </label>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label col-sm-2" for="transmission">Коробка передач</label>
+      <div class="col-sm-8">
+        <div class="btn-group" data-toggle="buttons">
+          <label class="btn btn-default disabled">
+            Механика
+          </label>
+          <label class="btn btn-default disabled">
+            Автомат
+          </label>
+          <label class="btn btn-default active">
+            Робот
+          </label>
+          <label class="btn btn-default disabled">
+            Вариатор
+          </label>
+        </div>
+      </div>
+    </div>
+    <hr>
+    <div class="form-group">
+      <label class="control-label col-sm-2" for="price">Цена</label>
+      <div class="col-sm-7">
+        <input class="form-control" type="text" id="price">
+      </div>
+      <div class="col-sm-1">₽</div>
+    </div>
+    <div class="form-group">
+      <label class="control-label col-sm-2">Фотография</label>
+      <div class="col-sm-10">
+        <label for="file">
+          <img src="../webapp/unselected.png"
+            style="pointer-events: none; -webkit-user-select: none;
+                   -khtml-user-select: none; -moz-user-select: none;
+                   -o-user-select: none; user-select: none;" id="image">
+          <input style='visibility: hidden; width: 0px; height: 0px;'
+                     type="file" id="file" onchange="onFileChange(this)">
+        </label>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label col-sm-2">Продано</label>
+      <div class="col-sm-10">
+        <!-- Rounded switch -->
+        <label class="switch">
+          <input type="checkbox" name="closed">
+          <span class="slider round"></span>
+        </label>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-10">
+        <button class="btn btn-default" type="button" id="save"
+                                     name="save" onclick="onSaveClick()">
+          Сохранить
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
+<script>
+  function validate(mark, model, year, km, carBody, file) {
+    var result = true;
+    if (!mark) {
+      result = false;
+      alert("Необходимо указать марку");
+    }
+    if (!model) {
+      result = false;
+      alert("Необходимо указать модель");
+    }
+    if (!year) {
+      result = false;
+      alert("Необходимо указать год");
+    }
+    if (!km) {
+      result = false;
+      alert("Необходимо указать пробег");
+    }
+    if (!carBody) {
+      result = false;
+      alert("Необходимо указать кузов");
+    }
+    if (!file) {
+      result = false;
+      alert("Необходимо разместить изображение");
+    }
+    return result;
+  }
+  function onSaveClick() {
+    var mark = $("#mark").val();
+    var model = $("#model").val();
+    var year = $("#year").val();
+    var km = $("#km").val();
+    var carBody = $("#carBody").val();
+    var file = $("#file").val();
+    if (validate(mark, model, year, km, carBody, file)) {
+      $("#mainForm").submit();
+    }
+  }
+  function onFileChange(f) {
+    var reader = new FileReader();
+    reader.readAsDataURL(f.files[0]);
+    reader.onloadend = function(event) {
+      var img = document.getElementById("image");
+      img.src = event.target.result;
+    };
+  }
+</script>
+</body>
+</html>

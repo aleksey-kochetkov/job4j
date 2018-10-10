@@ -21,14 +21,3 @@ CREATE TABLE car (
   engine_id       INT NOT NULL REFERENCES engine,
   transmission_id INT NOT NULL REFERENCES transmission
 );
-
-INSERT INTO transmission (descript) VALUES ('Коробка передач 01');
-INSERT INTO transmission (descript) VALUES ('Коробка передач 02');
-INSERT INTO transmission (descript) VALUES ('Коробка передач 03');
-
-INSERT INTO car (name, car_body_id, engine_id, transmission_id)
-VALUES ('Машина 1 1 1', 1, 1, 1);
-INSERT INTO car (name, car_body_id, engine_id, transmission_id)
-VALUES ('Машина 1 1 2', 1, 1, 2);
-INSERT INTO car (name, car_body_id, engine_id, transmission_id)
-VALUES ('Машина 3 2 1', 3, 2, 1);

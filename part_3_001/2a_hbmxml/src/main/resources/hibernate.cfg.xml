@@ -4,6 +4,7 @@
         <property name="connection.url">jdbc:postgresql:car</property>
         <property name="connection.username">postgres</property>
         <property name="connection.password">password</property>
+        <property name="dialect">org.hibernate.dialect.PostgreSQL94Dialect</property>
         <property name="show_sql">true</property>
         <mapping resource="e/CarBody.hbm.xml"/>
         <mapping resource="e/Engine.hbm.xml"/>

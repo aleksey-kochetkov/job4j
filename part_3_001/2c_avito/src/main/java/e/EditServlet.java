@@ -31,7 +31,6 @@ public class EditServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request,
                                             HttpServletResponse response)
                                    throws ServletException, IOException {
-        response.setContentType("text/html; charset=UTF-8");
         String id = request.getParameter("id");
         if (id != null) {
             Ad ad = this.logic.findAdById(id);
@@ -78,11 +77,10 @@ public class EditServlet extends HttpServlet {
     private Map<String, Object> getParameters(
                                             HttpServletRequest request) {
         Map<String, Object> result;
-        if (ServletFileUpload.isMultipartContent(request)) {
-            return this.processMultipartContent(request);
-        } else {
+        if (!ServletFileUpload.isMultipartContent(request)) {
             throw new IllegalStateException();
         }
+        return this.processMultipartContent(request);
     }
     private Map<String, Object> processMultipartContent(
                                             HttpServletRequest request) {

@@ -185,7 +185,7 @@ public class HbRepository implements Repository {
             session.flush();
             session.refresh(ad);
             Image image = ad.getImage();
-            if (image != null) {
+            if (image.getBytes() != null) {
                 image.setId(ad.getId());
                 session.saveOrUpdate(image);
             }

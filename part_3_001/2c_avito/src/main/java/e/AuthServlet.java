@@ -31,6 +31,9 @@ public class AuthServlet extends HttpServlet {
             request.getSession().setAttribute("operator", operator);
             String path = (String) this.getServletContext()
                                                    .getAttribute("path");
+            if (path == null) {
+                path = "/index";
+            }
             response.sendRedirect(
                  String.format("%s%s", request.getContextPath(), path));
         } else {

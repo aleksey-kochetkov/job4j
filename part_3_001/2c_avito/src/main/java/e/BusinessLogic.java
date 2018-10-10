@@ -4,14 +4,14 @@ import java.util.List;
 import java.util.Map;
 
 public class BusinessLogic {
-    private static final int L = 3;
+    private static final int LENGTH = 3;
     private final Repository repository;
 
-    BusinessLogic(Repository repository) {
+    public BusinessLogic(Repository repository) {
         this.repository = repository;
     }
 
-    void closeRepository() {
+    public void closeRepository() {
         try {
             this.repository.close();
         } catch (Exception exception) {
@@ -19,35 +19,35 @@ public class BusinessLogic {
         }
     }
 
-    User findUserByLogin(String login) {
+    public User findUserByLogin(String login) {
         return this.repository.findUserByLogin(login);
     }
 
-    List<Mark> findAllMarks() {
+    public List<Mark> findAllMarks() {
         return this.repository.findAllMarks();
     }
 
-    List<Model> findModelsByMarkId(int markId) {
+    public List<Model> findModelsByMarkId(int markId) {
         return this.repository.findModelsByMarkId(markId);
     }
 
-    List<Model> findModelsByMarkId(String markId) {
+    public List<Model> findModelsByMarkId(String markId) {
         return this.findModelsByMarkId(Integer.parseInt(markId));
     }
 
-    List<CarBody> findAllCarBodies() {
+    public List<CarBody> findAllCarBodies() {
         return this.repository.findAllCarBodies();
     }
 
-    List<Engine> findAllEngines() {
+    public List<Engine> findAllEngines() {
         return this.repository.findAllEngines();
     }
 
-    List<Transmission> findAllTransmissions() {
+    public List<Transmission> findAllTransmissions() {
         return this.repository.findAllTransmissions();
     }
 
-    Ad createAd(User operator, Map<String, Object> parameters) {
+    public Ad createAd(User operator, Map<String, Object> parameters) {
         Ad result = new Ad.Builder(operator,
                              new Model(Integer.parseInt(
                                       (String) parameters.get("model"))),
@@ -66,11 +66,11 @@ public class BusinessLogic {
         return result;
     }
 
-    Ad findAdById(String id) {
+    public Ad findAdById(String id) {
         return this.repository.findAdById(Integer.parseInt(id));
     }
 
-    Ad[][] findAllAds() {
+    public Ad[][] findAllAds() {
         List<Ad> ads = this.repository.findAllAds();
         Ad[][] result = null;
         if (ads.size() > 0) {
@@ -80,15 +80,15 @@ public class BusinessLogic {
     }
 
     private Ad[][] toArray(List<Ad> ads) {
-        int y = (int) Math.ceil((double) ads.size() / L);
+        int y = (int) Math.ceil((double) ads.size() / LENGTH);
         Ad[][] result = new Ad[y][];
         y = 0;
-        result[y] = new Ad[L];
+        result[y] = new Ad[LENGTH];
         int x = 0;
         for (Ad a : ads) {
-            if (x == L) {
+            if (x == LENGTH) {
                 x = 0;
-                result[++y] = new Ad[L];
+                result[++y] = new Ad[LENGTH];
             }
             result[y][x] = a;
             x++;
@@ -96,7 +96,7 @@ public class BusinessLogic {
         return result;
     }
 
-    Ad updateAd(User operator, String id,
+    public Ad updateAd(User operator, String id,
                                         Map<String, Object> parameters) {
         Ad result = new Ad.Builder(operator,
                              new Model(Integer.parseInt(
@@ -119,11 +119,11 @@ public class BusinessLogic {
         return result;
     }
 
-    Image findImageById(int id) {
+    public Image findImageById(int id) {
         return this.repository.findImageById(id);
     }
 
-    boolean isCredential(String login, String password) {
+    public boolean isCredential(String login, String password) {
         User user = this.repository.findUserByLogin(login);
         return user != null && password.equals(user.getPassword().trim());
     }

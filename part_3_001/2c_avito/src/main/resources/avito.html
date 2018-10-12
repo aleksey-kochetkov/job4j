@@ -20,7 +20,7 @@
     <div class="navbar-header">
       <a class="navbar-brand" href="#">Автомобили</a>
     </div>
-    <div class="navbar-form navbar-right" action="" method="post">
+    <div class="navbar-form navbar-right">
       <a class="nav-link" href="#">Вход</a>
       <button class="btn btn-default" type="submit" name="action" value="search">
         Подать объявление
@@ -31,6 +31,34 @@
 
 <div class="container">
   <table>
+    <tr>
+      <td colspan="3">
+        <form class="form-inline" id="optionsForm">
+          <div class="form-group">
+            <select class="form-control" id="mark" name="mark"
+                                               onchange="onMarkChange()">
+              <option>все марки</option>
+              <option>2</option>
+              <option>3</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <select class="form-control" id="period" name="period"
+                                             onchange="onPeriodChange()">
+              <option>за всё время</option>
+              <option>за день</option>
+            </select>
+          </div>
+          <div class="checkbox">
+            <label for="notClosed">
+              <input type="checkbox" id="notClosed" name="notClosed"
+                                          onchange="onNotClosedChange()">
+                только открытые
+            </label>
+          </div>
+        </form>
+      </td>
+    </tr>
     <tr>
       <td>
         <a style="color: inherit" href="edit.html?id=1">
@@ -91,6 +119,16 @@
     </tr>
   </table>
 </div>
-
+<script>
+  function onMarkChange() {
+    $("#optionsForm").submit();
+  }
+  function onPeriodChange() {
+    $("#optionsForm").submit();
+  }
+  function onNotClosedChange() {
+    $("#optionsForm").submit();
+  }
+</script>
 </body>
 </html>

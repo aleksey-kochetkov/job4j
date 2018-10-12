@@ -23,7 +23,7 @@
       <a class="navbar-brand" href="#">Автомобили</a>
     </div>
     <div class="navbar-form navbar-right" action="" method="post">
-      <a class="nav-link" href="/2c_avito/auth?path=/avito">
+      <a class="nav-link" href="${pageContext.servletContext.contextPath}/auth?path=/avito">
         <c:choose>
           <c:when test="${empty operator}">Вход</c:when>
           <c:otherwise>${operator.name}</c:otherwise>
@@ -38,6 +38,47 @@
 
 <div class="container">
   <table>
+    <tr>
+      <td colspan="3">
+        <form class="form-inline" id="optionsForm">
+          <div class="form-group">
+            <select class="form-control" id="mark" name="mark">
+              <option value="">все марки</option>
+              <c:forEach items="${marks}" var="mark">
+                <option value="${mark.id}"
+                        <c:if test="${mark.id == markId}">selected</c:if>>
+                  ${mark.name}
+                </option>
+              </c:forEach>
+            </select>
+          </div>
+          <div class="form-group">
+            <select class="form-control" id="period" name="period">
+              <option value="">за всё время</option>
+              <option value="d"
+                         <c:if test="${\"d\" == period}">selected</c:if>>
+                за день
+              </option>
+              <option value="3d"
+                        <c:if test="${\"3d\" == period}">selected</c:if>>
+                за 3 дня
+              </option>
+              <option value="m"
+                         <c:if test="${\"m\" == period}">selected</c:if>>
+                за месяц
+              </option>
+            </select>
+          </div>
+          <div class="checkbox">
+            <label for="notClosed">
+              <input type="checkbox" id="notClosed" name="notClosed"
+                         <c:if test="${!empty notClosed}">checked</c:if>>
+              только открытые
+            </label>
+          </div>
+        </form>
+      </td>
+    </tr>
     <c:forEach items="${rows}" var="row">
     <tr>
       <c:forEach items="${row}" var="ad">
@@ -64,5 +105,17 @@
   function create() {
     location.assign("edit");
   }
+  function onMarkChange() {
+    $("#optionsForm").submit();
+  }
+  function onPeriodChange() {
+    $("#optionsForm").submit();
+  }
+  function onNotClosedChange() {
+    $("#optionsForm").submit();
+  }
+  $("#mark").attr("onchange", "onMarkChange()")
+  $("#period").attr("onchange", "onPeriodChange()")
+  $("#notClosed").attr("onchange", "onNotClosedChange()")
 </script>
 </html>

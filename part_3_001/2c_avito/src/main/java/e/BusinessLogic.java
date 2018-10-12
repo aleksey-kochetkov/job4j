@@ -79,6 +79,20 @@ public class BusinessLogic {
         return result;
     }
 
+    Ad[][] findAds(Integer markId, String periodString,
+                                                      String notClosed) {
+        Period period = new Period().decode(periodString);
+        Boolean closed = notClosed == null || notClosed.length() == 0
+                                                          ? null : false;
+        List<Ad> ads = this.repository.findAds(markId, period.getBegin(),
+                                                period.getEnd(), closed);
+        Ad[][] result = null;
+        if (ads.size() > 0) {
+            result = this.toArray(ads);
+        }
+        return result;
+    }
+
     private Ad[][] toArray(List<Ad> ads) {
         int y = (int) Math.ceil((double) ads.size() / LENGTH);
         Ad[][] result = new Ad[y][];
@@ -110,8 +124,7 @@ public class BusinessLogic {
                        Integer.parseInt((String) parameters.get("year")),
                          Integer.parseInt((String) parameters.get("km")))
           .withId(Integer.parseInt(id))
-          .withClosed(((String) parameters.get("closed")) == null
-                                                          ? false : true)
+          .withClosed(((String) parameters.get("closed")) != null)
           .withPrice(Integer.parseInt((String) parameters.get("price")))
           .withImage(new Image((byte[]) parameters.get("image")))
           .build();

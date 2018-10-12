@@ -3,7 +3,12 @@ package e;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.SessionFactory;
 import org.hibernate.Session;
+import org.hibernate.Criteria;
 import org.hibernate.query.Query;
+import org.hibernate.criterion.Restrictions;
+import org.hibernate.type.IntegerType;
+import java.util.Date;
+import java.util.Calendar;
 
 import java.util.List;
 
@@ -164,8 +169,37 @@ public class HbRepository implements Repository {
         Session session = FACTORY.openSession();
         try {
             session.beginTransaction();
-            List<Ad> result = session
-                  .<Ad>createQuery("FROM Ad").list();
+            List<Ad> result = session.<Ad>createQuery("FROM Ad").list();
+            session.getTransaction().commit();
+            return result;
+        } catch (Exception exception) {
+            session.getTransaction().rollback();
+            throw exception;
+        } finally {
+            session.close();
+        }
+    }
+
+    @Override
+    public List<Ad> findAds(Integer markId, Date begin, Date end,
+                                                        Boolean closed) {
+        Session session = FACTORY.openSession();
+        try {
+            session.beginTransaction();
+            Criteria criteria = session.<Ad>createCriteria(Ad.class);
+            if (markId != null) {
+                Mark mark = new Mark(2);
+                criteria = criteria.createAlias("model", "model")
+                               .add(Restrictions.eq("model.mark", mark));
+            }
+            if (begin != null && end != null) {
+                criteria.add(Restrictions
+                                       .between("createDt", begin, end));
+            }
+            if (closed != null) {
+                criteria.add(Restrictions.eq("closed", closed));
+            }
+            List<Ad> result = criteria.list();
             session.getTransaction().commit();
             return result;
         } catch (Exception exception) {

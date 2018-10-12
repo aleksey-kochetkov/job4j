@@ -1,7 +1,7 @@
 <web-app>
     <servlet>
         <servlet-name>SomeName</servlet-name>
-        <servlet-class>UserServlet</servlet-class>
+        <servlet-class>HelloServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>SomeName</servlet-name>

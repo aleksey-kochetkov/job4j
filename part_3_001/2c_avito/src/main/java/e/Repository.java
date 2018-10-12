@@ -1,6 +1,7 @@
 package e;
 
 import java.util.List;
+import java.util.Date;
 
 public interface Repository extends AutoCloseable {
     User findUserByLogin(String login);
@@ -12,6 +13,8 @@ public interface Repository extends AutoCloseable {
     void createAd(Ad ad);
     Ad findAdById(int id);
     List<Ad> findAllAds();
+    List<Ad> findAds(Integer markId, Date begin, Date end,
+                                                         Boolean closed);
     void updateAd(Ad ad);
     Image findImageById(int id);
 }

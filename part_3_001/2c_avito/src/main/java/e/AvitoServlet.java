@@ -22,9 +22,23 @@ public class AvitoServlet extends HttpServlet {
                                    throws ServletException, IOException {
         this.getServletContext().setAttribute("path",
                                                request.getServletPath());
-        this.getServletContext().setAttribute("rows",
-                                                this.logic.findAllAds());
+        request.setAttribute("marks", this.logic.findAllMarks());
+        Integer markId = this.valueOf(request.getParameter("mark"));
+        if (markId != null) {
+            request.setAttribute("markId", markId);
+        }
+        request.setAttribute("period", request.getParameter("period"));
+        request.setAttribute("notClosed",
+                                      request.getParameter("notClosed"));
+        request.setAttribute("rows",
+             this.logic.findAds(markId, request.getParameter("period"),
+                                     request.getParameter("notClosed")));
         request.getRequestDispatcher("/WEB-INF/avito.jsp")
                                              .include(request, response);
+    }
+
+    private Integer valueOf(String value) {
+        return value == null || value.length() == 0 ? null
+                                                : Integer.valueOf(value);
     }
 }

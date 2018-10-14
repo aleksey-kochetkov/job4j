@@ -1,0 +1,17 @@
+<hibernate-configuration>
+    <session-factory>
+        <property name="connection.driver_class">org.hsqldb.jdbcDriver</property>
+        <property name="connection.url">jdbc:hsqldb:mem:avito;sql.enforce_size=false</property>
+        <property name="dialect">org.hibernate.dialect.HSQLDialect</property>
+        <property name="show_sql">true</property>
+        <property name="hibernate.hbm2ddl.auto">create</property>
+        <mapping resource="e/User.hbm.xml"/>
+        <mapping resource="e/Mark.hbm.xml"/>
+        <mapping resource="e/Model.hbm.xml"/>
+        <mapping resource="e/CarBody.hbm.xml"/>
+        <mapping resource="e/Engine.hbm.xml"/>
+        <mapping resource="e/Transmission.hbm.xml"/>
+        <mapping resource="e/Ad.hbm.xml"/>
+        <mapping resource="e/Image.hbm.xml"/>
+    </session-factory>
+</hibernate-configuration>

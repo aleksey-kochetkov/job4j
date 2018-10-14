@@ -5,6 +5,15 @@ public class User {
     private String password;
     private String name;
 
+    public User() {
+    }
+
+    public User(String login, String name, String password) {
+        this.login = login;
+        this.name = name;
+        this.password = password;
+    }
+
     public String getLogin() {
         return this.login;
     }

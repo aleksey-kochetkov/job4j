@@ -1,7 +1,7 @@
 <hibernate-mapping>
     <class name="e.Image" table="ad">
         <id name="id" column="id">
-            <generator class="assigned"/>
+            <generator class="identity"/>
         </id>
         <property name="bytes" column="image"/>
     </class>

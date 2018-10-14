@@ -8,6 +8,10 @@ public class Model {
     public Model() {
     }
 
+    public Model(Mark mark) {
+        this.mark = mark;
+    }
+
     public Model(int id) {
         this.id = id;
     }

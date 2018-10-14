@@ -22,6 +22,23 @@ public class HbRepository implements Repository {
     }
 
     @Override
+    public User createUser(String login, String name, String password) {
+        Session session = FACTORY.openSession();
+        try {
+            session.beginTransaction();
+            User user = new User(login, name, password);
+            session.save(user);
+            session.getTransaction().commit();
+            return user;
+        } catch (Exception exception) {
+            session.getTransaction().rollback();
+            throw exception;
+        } finally {
+            session.close();
+        }
+    }
+
+    @Override
     public User findUserByLogin(String login) {
         Session session = FACTORY.openSession();
         try {
@@ -41,6 +58,22 @@ public class HbRepository implements Repository {
     }
 
     @Override
+    public Mark createMark(Mark mark) {
+        Session session = FACTORY.openSession();
+        try {
+            session.beginTransaction();
+            session.save(mark);
+            session.getTransaction().commit();
+            return mark;
+        } catch (Exception exception) {
+            session.getTransaction().rollback();
+            throw exception;
+        } finally {
+            session.close();
+        }
+    }
+
+    @Override
     public List<Mark> findAllMarks() {
         Session session = FACTORY.openSession();
         try {
@@ -49,6 +82,22 @@ public class HbRepository implements Repository {
                                        "FROM Mark ORDER BY name").list();
             session.getTransaction().commit();
             return result;
+        } catch (Exception exception) {
+            session.getTransaction().rollback();
+            throw exception;
+        } finally {
+            session.close();
+        }
+    }
+
+    @Override
+    public Model createModel(Model model) {
+        Session session = FACTORY.openSession();
+        try {
+            session.beginTransaction();
+            session.save(model);
+            session.getTransaction().commit();
+            return model;
         } catch (Exception exception) {
             session.getTransaction().rollback();
             throw exception;
@@ -76,6 +125,23 @@ public class HbRepository implements Repository {
     }
 
     @Override
+    public CarBody createCarBody() {
+        Session session = FACTORY.openSession();
+        try {
+            session.beginTransaction();
+            CarBody carBody = new CarBody();
+            session.save(carBody);
+            session.getTransaction().commit();
+            return carBody;
+        } catch (Exception exception) {
+            session.getTransaction().rollback();
+            throw exception;
+        } finally {
+            session.close();
+        }
+    }
+
+    @Override
     public List<CarBody> findAllCarBodies() {
         Session session = FACTORY.openSession();
         try {
@@ -93,6 +159,23 @@ public class HbRepository implements Repository {
     }
 
     @Override
+    public Engine createEngine() {
+        Session session = FACTORY.openSession();
+        try {
+            session.beginTransaction();
+            Engine engine = new Engine();
+            session.save(engine);
+            session.getTransaction().commit();
+            return engine;
+        } catch (Exception exception) {
+            session.getTransaction().rollback();
+            throw exception;
+        } finally {
+            session.close();
+        }
+    }
+
+    @Override
     public List<Engine> findAllEngines() {
         Session session = FACTORY.openSession();
         try {
@@ -101,6 +184,23 @@ public class HbRepository implements Repository {
                                                    "FROM Engine").list();
             session.getTransaction().commit();
             return result;
+        } catch (Exception exception) {
+            session.getTransaction().rollback();
+            throw exception;
+        } finally {
+            session.close();
+        }
+    }
+
+    @Override
+    public Transmission createTransmission() {
+        Session session = FACTORY.openSession();
+        try {
+            session.beginTransaction();
+            Transmission transmission = new Transmission();
+            session.save(transmission);
+            session.getTransaction().commit();
+            return transmission;
         } catch (Exception exception) {
             session.getTransaction().rollback();
             throw exception;
@@ -188,7 +288,7 @@ public class HbRepository implements Repository {
             session.beginTransaction();
             Criteria criteria = session.<Ad>createCriteria(Ad.class);
             if (markId != null) {
-                Mark mark = new Mark(2);
+                Mark mark = new Mark(markId);
                 criteria = criteria.createAlias("model", "model")
                                .add(Restrictions.eq("model.mark", mark));
             }

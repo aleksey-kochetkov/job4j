@@ -9,6 +9,7 @@ import org.hibernate.criterion.Restrictions;
 import org.hibernate.type.IntegerType;
 import java.util.Date;
 import java.util.Calendar;
+import java.util.Optional;
 
 import java.util.List;
 
@@ -281,14 +282,14 @@ public class HbRepository implements Repository {
     }
 
     @Override
-    public List<Ad> findAds(Integer markId, Date begin, Date end,
-                                                        Boolean closed) {
+    public List<Ad> findAds(Optional<Integer> markId, Date begin,
+                                              Date end, Boolean closed) {
         Session session = FACTORY.openSession();
         try {
             session.beginTransaction();
             Criteria criteria = session.<Ad>createCriteria(Ad.class);
-            if (markId != null) {
-                Mark mark = new Mark(markId);
+            if (markId.isPresent()) {
+                Mark mark = new Mark(markId.get());
                 criteria = criteria.createAlias("model", "model")
                                .add(Restrictions.eq("model.mark", mark));
             }

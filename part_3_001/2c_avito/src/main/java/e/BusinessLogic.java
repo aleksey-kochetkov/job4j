@@ -2,6 +2,7 @@ package e;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class BusinessLogic {
     private static final int LENGTH = 3;
@@ -79,7 +80,7 @@ public class BusinessLogic {
         return result;
     }
 
-    Ad[][] findAds(Integer markId, String periodString,
+    Ad[][] findAds(Optional<Integer> markId, String periodString,
                                                       String notClosed) {
         Period period = new Period().decode(periodString);
         Boolean closed = notClosed == null || notClosed.length() == 0

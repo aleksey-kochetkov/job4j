@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.ServletException;
 import java.io.IOException;
+import java.util.Optional;
 
 public class AvitoServlet extends HttpServlet {
     private final BusinessLogic logic = new BusinessLogic(
@@ -23,10 +24,9 @@ public class AvitoServlet extends HttpServlet {
         this.getServletContext().setAttribute("path",
                                                request.getServletPath());
         request.setAttribute("marks", this.logic.findAllMarks());
-        Integer markId = this.valueOf(request.getParameter("mark"));
-        if (markId != null) {
-            request.setAttribute("markId", markId);
-        }
+        Optional<Integer> markId = this.optionalOf(
+                                           request.getParameter("mark"));
+        markId.ifPresent(id -> request.setAttribute("markId", id));
         request.setAttribute("period", request.getParameter("period"));
         request.setAttribute("notClosed",
                                       request.getParameter("notClosed"));
@@ -37,8 +37,8 @@ public class AvitoServlet extends HttpServlet {
                                              .include(request, response);
     }
 
-    private Integer valueOf(String value) {
-        return value == null || value.length() == 0 ? null
-                                                : Integer.valueOf(value);
+    private Optional<Integer> optionalOf(String value) {
+        return value == null || value.length() == 0 ? Optional.empty()
+                                   : Optional.of(Integer.valueOf(value));
     }
 }

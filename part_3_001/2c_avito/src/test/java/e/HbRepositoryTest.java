@@ -2,6 +2,7 @@ package e;
 
 
 import java.util.List;
+import java.util.Optional;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.fail;
@@ -120,8 +121,8 @@ public class HbRepositoryTest {
                                         new Transmission(), 2002, 200200)
                               .withImage(new Image(new byte[4])).build();
         this.repository.createAd(ad);
-        List<Ad> ads = this.repository.findAds(one.getId(), null, null,
-                                                                   null);
+        List<Ad> ads = this.repository.findAds(Optional.of(one.getId()),
+                                                       null, null, null);
         assertEquals(2, ads.size());
     }
 

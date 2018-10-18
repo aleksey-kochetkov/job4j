@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+
+
+    <changeSet author="Aleksei" id="1">
+        <preConditions onFail="MARK_RAN">
+            <tableExists tableName="uzer"/>
+        </preConditions>
+        <dropTable cascadeConstraints="true" tableName="uzer"/>
+    </changeSet>
+
+    <changeSet author="Aleksei" id="2">
+        <preConditions onFail="MARK_RAN">
+            <tableExists tableName="mark"/>
+        </preConditions>
+        <dropTable cascadeConstraints="true" tableName="mark"/>
+    </changeSet>
+
+    <changeSet author="Aleksei" id="3">
+        <preConditions onFail="MARK_RAN">
+            <tableExists tableName="model"/>
+        </preConditions>
+        <dropTable cascadeConstraints="true" tableName="model"/>
+    </changeSet>
+
+    <changeSet author="Aleksei" id="4">
+        <preConditions onFail="MARK_RAN">
+            <tableExists tableName="car_body"/>
+        </preConditions>
+        <dropTable cascadeConstraints="true" tableName="car_body"/>
+    </changeSet>
+
+    <changeSet author="Aleksei" id="5">
+        <preConditions onFail="MARK_RAN">
+            <tableExists tableName="engine"/>
+        </preConditions>
+        <dropTable cascadeConstraints="true" tableName="engine"/>
+    </changeSet>
+
+    <changeSet author="Aleksei" id="6">
+        <preConditions onFail="MARK_RAN">
+            <tableExists tableName="transmission"/>
+        </preConditions>
+        <dropTable cascadeConstraints="true" tableName="transmission"/>
+    </changeSet>
+
+    <changeSet author="Aleksei" id="7">
+        <preConditions onFail="MARK_RAN">
+            <tableExists tableName="ad"/>
+        </preConditions>
+        <dropTable cascadeConstraints="true" tableName="ad"/>
+    </changeSet>
+
+    <changeSet author="Aleksei" id="8">
+        <createTable tableName="uzer">
+            <column name="login" type="char(8)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="password" type="char(8)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="varchar(16)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <insert dbms="postgresql" tableName="uzer">
+            <column name="login" type="char(8)" value="irkalii"/>
+            <column name="password" type="char(8)" value="irkalii"/>
+            <column name="name" type="varchar(16)" value="Иркалий"/>
+        </insert>
+        <insert dbms="postgresql" tableName="uzer">
+            <column name="login" type="char(8)" value="seller"/>
+            <column name="password" type="char(8)" value="seller"/>
+            <column name="name" type="varchar(16)" value="Селлер"/>
+        </insert>
+        <insert dbms="postgresql" tableName="uzer">
+            <column name="login" type="char(8)" value="princess"/>
+            <column name="password" type="char(8)" value="princess"/>
+            <column name="name" type="varchar(16)" value="Принцесса"/>
+        </insert>
+        <createTable tableName="mark">
+            <column name="id" type="SERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(16)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <insert dbms="postgresql" tableName="mark">
+            <column name="name" type="varchar(16)" value="Mach"/>
+        </insert>
+        <insert dbms="postgresql" tableName="mark">
+            <column name="name" type="varchar(16)" value="Avito"/>
+        </insert>
+        <insert dbms="postgresql" tableName="mark">
+            <column name="name" type="varchar(16)" value="Shaur"/>
+        </insert>
+        <insert dbms="postgresql" tableName="mark">
+            <column name="name" type="varchar(16)" value="Happy"/>
+        </insert>
+        <createTable tableName="model">
+            <column name="id" type="SERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="mark_id" type="INT">
+                <constraints references="mark" foreignKeyName="fk_mark"
+                                                       nullable="false"/>
+            </column>
+            <column name="name" type="varchar(16)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <insert dbms="postgresql" tableName="model">
+            <column name="mark_id" type="INT" valueNumeric="1"/>
+            <column name="name" type="varchar(16)" value="Eene"/>
+        </insert>
+        <insert dbms="postgresql" tableName="model">
+            <column name="mark_id" type="INT" valueNumeric="1"/>
+            <column name="name" type="varchar(16)" value="No"/>
+        </insert>
+        <insert dbms="postgresql" tableName="model">
+            <column name="mark_id" type="INT" valueNumeric="2"/>
+            <column name="name" type="varchar(16)" value="Kushney"/>
+        </insert>
+        <insert dbms="postgresql" tableName="model">
+            <column name="mark_id" type="INT" valueNumeric="2"/>
+            <column name="name" type="varchar(16)" value="Beever"/>
+        </insert>
+        <insert dbms="postgresql" tableName="model">
+            <column name="mark_id" type="INT" valueNumeric="2"/>
+            <column name="name" type="varchar(16)" value="Car"/>
+        </insert>
+        <insert dbms="postgresql" tableName="model">
+            <column name="mark_id" type="INT" valueNumeric="3"/>
+            <column name="name" type="varchar(16)" value="Mah"/>
+        </insert>
+        <insert dbms="postgresql" tableName="model">
+            <column name="mark_id" type="INT" valueNumeric="3"/>
+            <column name="name" type="varchar(16)" value="Porebrich"/>
+        </insert>
+        <insert dbms="postgresql" tableName="model">
+            <column name="mark_id" type="INT" valueNumeric="4"/>
+            <column name="name" type="varchar(16)" value="Car"/>
+        </insert>
+        <insert dbms="postgresql" tableName="model">
+            <column name="mark_id" type="INT" valueNumeric="4"/>
+            <column name="name" type="varchar(16)" value="Automobile"/>
+        </insert>
+        <insert dbms="postgresql" tableName="model">
+            <column name="mark_id" type="INT" valueNumeric="4"/>
+            <column name="name" type="varchar(16)" value="Jaba Three"/>
+        </insert>
+        <createTable tableName="car_body">
+            <column name="id" type="SERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="descript" type="varchar(16)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <insert dbms="postgresql" tableName="car_body">
+            <column name="descript" type="VARCHAR(16)" value="Седан"/>
+        </insert>
+        <insert dbms="postgresql" tableName="car_body">
+            <column name="descript" type="VARCHAR(16)" value="Хетчбэк"/>
+        </insert>
+        <insert dbms="postgresql" tableName="car_body">
+            <column name="descript" type="VARCHAR(16)" value="Универсал"/>
+        </insert>
+        <insert dbms="postgresql" tableName="car_body">
+            <column name="descript" type="VARCHAR(16)" value="Внедорожник"/>
+        </insert>
+        <insert dbms="postgresql" tableName="car_body">
+            <column name="descript" type="VARCHAR(16)" value="Кабриолет"/>
+        </insert>
+        <insert dbms="postgresql" tableName="car_body">
+            <column name="descript" type="VARCHAR(16)" value="Купе"/>
+        </insert>
+        <insert dbms="postgresql" tableName="car_body">
+            <column name="descript" type="VARCHAR(16)" value="Лимузин"/>
+        </insert>
+        <insert dbms="postgresql" tableName="car_body">
+            <column name="descript" type="VARCHAR(16)" value="Минивэн"/>
+        </insert>
+        <insert dbms="postgresql" tableName="car_body">
+            <column name="descript" type="VARCHAR(16)" value="Пикап"/>
+        </insert>
+        <insert dbms="postgresql" tableName="car_body">
+            <column name="descript" type="VARCHAR(16)" value="Фургон"/>
+        </insert>
+        <insert dbms="postgresql" tableName="car_body">
+            <column name="descript" type="VARCHAR(16)" value="Микроавтобус"/>
+        </insert>
+        <createTable tableName="engine">
+            <column name="id" type="SERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="descript" type="VARCHAR(16)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <insert dbms="postgresql" tableName="engine">
+            <column name="descript" type="VARCHAR(16)" value="Бензин"/>
+        </insert>
+        <insert dbms="postgresql" tableName="engine">
+            <column name="descript" type="VARCHAR(16)" value="Дизель"/>
+        </insert>
+        <insert dbms="postgresql" tableName="engine">
+            <column name="descript" type="VARCHAR(16)" value="Гибрид"/>
+        </insert>
+        <insert dbms="postgresql" tableName="engine">
+            <column name="descript" type="VARCHAR(16)" value="Электро"/>
+        </insert>
+        <insert dbms="postgresql" tableName="engine">
+            <column name="descript" type="VARCHAR(16)" value="Газ"/>
+        </insert>
+        <createTable tableName="transmission">
+            <column name="id" type="SERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="descript" type="VARCHAR(16)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <insert dbms="postgresql" tableName="transmission">
+            <column name="descript" type="VARCHAR(16)" value="Механика"/>
+        </insert>
+        <insert dbms="postgresql" tableName="transmission">
+            <column name="descript" type="VARCHAR(16)" value="Автомат"/>
+        </insert>
+        <insert dbms="postgresql" tableName="transmission">
+            <column name="descript" type="VARCHAR(16)" value="Робот"/>
+        </insert>
+        <insert dbms="postgresql" tableName="transmission">
+            <column name="descript" type="VARCHAR(16)" value="Вариатор"/>
+        </insert>
+        <createTable tableName="ad">
+            <column name="id" type="SERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="login" type="CHAR(8)">
+                <constraints references="uzer" foreignKeyName="fk_user"
+                             nullable="false"/>
+            </column>
+            <column name="model_id" type="INT">
+                <constraints references="model" foreignKeyName="fk_model"
+                             nullable="false"/>
+            </column>
+            <column name="car_body_id" type="INT">
+                <constraints references="car_body" foreignKeyName="fk_car_body"
+                             nullable="false"/>
+            </column>
+            <column name="engine_id" type="INT">
+                <constraints references="engine" foreignKeyName="fk_engine"
+                             nullable="false"/>
+            </column>
+            <column name="transmission_id" type="INT">
+                <constraints references="transmission" foreignKeyName="fk_transmission"
+                             nullable="false"/>
+            </column>
+            <column name="create_dt" type="TIMESTAMP"
+                                defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="closed" type="BOOLEAN"
+                                             defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="year" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="km" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="price" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="image" type="BYTEA"/>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>

@@ -2,7 +2,6 @@ package e;
 
 import org.springframework.stereotype.Component;
 
-@Component
 public class UserStorage {
     Storage storage;
 

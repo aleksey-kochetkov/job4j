@@ -1,0 +1,12 @@
+<hibernate-configuration>
+    <session-factory>
+        <property name="connection.driver_class">org.postgresql.Driver</property>
+        <property name="connection.url">jdbc:postgresql:1d_ioc</property>
+        <property name="connection.username">postgres</property>
+        <property name="connection.password">password</property>
+        <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQL95Dialect</property>
+        <property name="hibernate.show_sql">true</property>
+        <property name="hibernate.hbm2ddl.auto">create</property>
+        <mapping resource="e/User.hbm.xml"/>
+    </session-factory>
+</hibernate-configuration>

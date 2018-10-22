@@ -13,6 +13,6 @@ public class MainConfig {
 
     @Bean
     public UserStorage userStorage() {
-        return new UserStorage(storage());
+        return new UserStorage(this.storage());
     }
 }

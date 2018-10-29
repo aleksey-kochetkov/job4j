@@ -4,7 +4,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class UserStorage {
-    Storage storage;
+    private final Storage storage;
 
     public UserStorage(Storage storage) {
         this.storage = storage;

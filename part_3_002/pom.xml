@@ -12,6 +12,7 @@
         <module>1b_anno</module>
         <module>1c_java</module>
         <module>1d_ioc</module>
+        <module>2a_avito</module>
     </modules>
     <dependencies>
         <!-- https://mvnrepository.com/artifact/org.springframework/spring-core -->

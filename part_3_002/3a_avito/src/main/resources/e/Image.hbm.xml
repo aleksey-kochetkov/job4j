@@ -1,0 +1,8 @@
+<hibernate-mapping>
+    <class name="e.Image" table="image">
+        <id name="adId" column="ad_id">
+            <generator class="assigned"/>
+        </id>
+        <property name="bytes" column="image"/>
+    </class>
+</hibernate-mapping>

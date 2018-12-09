@@ -103,7 +103,7 @@
 </body>
 <script>
   function create() {
-    location.assign("edit");
+    location.assign("create");
   }
   function onMarkChange() {
     $("#optionsForm").submit();

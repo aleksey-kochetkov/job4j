@@ -9,6 +9,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+
 import java.util.Optional;
 import java.util.List;
 import java.util.ArrayList;
@@ -17,12 +18,13 @@ import java.util.HashMap;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.IOException;
+import java.security.Principal;
 
 @Controller
 public class AvitoController {
     private final BusinessLogic logic;
-    @Autowired
-    private User operator;
+// Это был пример бина в рамках сессии    @Autowired
+//    private User operator;
 
     public AvitoController(BusinessLogic logic) {
         this.logic = logic;
@@ -30,8 +32,11 @@ public class AvitoController {
 
     @RequestMapping(value = "/index", method = RequestMethod.GET)
     public String indexPage(String mark, String period, String notClosed,
-                                                        ModelMap model) {
-        model.addAttribute("operator", this.operator);
+                                   Principal principal, ModelMap model) {
+        if (principal != null) {
+            model.addAttribute("operator",
+                        this.logic.findUserByLogin(principal.getName()));
+        }
         model.addAttribute("marks", this.logic.findAllMarks());
         Optional<Integer> markId = this.optionalOf(mark);
         markId.ifPresent(id -> model.addAttribute("markId", id));
@@ -47,25 +52,25 @@ public class AvitoController {
                                    : Optional.of(Integer.valueOf(value));
     }
 
-    @RequestMapping(value = "/edit", method = RequestMethod.GET)
-    public String authFilter(String id, ModelMap model) {
+    @RequestMapping(value = {"/edit", "/create"}, method = RequestMethod.GET)
+    public String authFilter(String id, Principal principal, ModelMap model) {
         String result;
-        if (this.operator.getLogin() == null && id == null) {
+        if (principal == null && id == null) {
             result = "forward:auth?path=edit";
         } else {
-            result = this.editPage(id, null, model);
+            result = this.editPage(id, null, principal, model);
         }
         return result;
     }
 
-    private String editPage(String id, Ad ad, ModelMap model) {
+    private String editPage(String id, Ad ad, Principal principal, ModelMap model) {
         if (id != null) {
             ad = this.logic.findAdById(id);
             model.addAttribute("ad", ad);
             this.addAttributeModels(ad, model);
-            this.checkAttributeView(ad, model);
+            this.checkAttributeView(ad, principal, model);
         }
-        model.addAttribute("operator", this.operator);
+        model.addAttribute("operator", this.logic.findUserByLogin(principal.getName()));
         model.addAttribute("marks", this.logic.findAllMarks());
         model.addAttribute("carBodies", this.logic.findAllCarBodies());
         model.addAttribute("engines", this.logic.findAllEngines());
@@ -76,7 +81,7 @@ public class AvitoController {
 
     @RequestMapping (value = "/edit", method = RequestMethod.POST)
     public String editPage(@RequestParam Map<String, Object> params,
-                      @RequestParam MultipartFile file, ModelMap model) {
+      @RequestParam MultipartFile file, Principal principal, ModelMap model) {
         try {
             if (!file.isEmpty()) {
                 params.put("image", file.getBytes());
@@ -86,15 +91,16 @@ public class AvitoController {
         }
         Ad ad;
         String id = (String) params.get("id");
+        User operator = this.logic.findUserByLogin(principal.getName());
         if (id == null) {
-            ad = this.logic.createAd(this.operator, params);
+            ad = this.logic.createAd(operator, params);
         } else {
-            ad = this.logic.updateAd(this.operator, id, params);
+            ad = this.logic.updateAd(operator, id, params);
         }
         model.addAttribute("ad", ad);
         this.addAttributeModels(ad, model);
         model.addAttribute("view", true);
-        return this.editPage(null, ad, model);
+        return this.editPage(null, ad, principal, model);
     }
 
     private void addAttributeModels(Ad ad, ModelMap model) {
@@ -102,10 +108,10 @@ public class AvitoController {
                                        ad.getModel().getMark().getId()));
     }
 
-    private void checkAttributeView(Ad ad, ModelMap model) {
-        if (this.operator.getLogin() == null
-                                     || !this.operator.getLogin().equals(
-                                       ad.getUser().getLogin().trim())) {
+    private void checkAttributeView(Ad ad,
+                                   Principal principal, ModelMap model) {
+        if (principal == null || !principal.getName().equals(
+                                              ad.getUser().getLogin())) {
             model.addAttribute("view", true);
         }
     }
@@ -121,29 +127,12 @@ public class AvitoController {
     }
 
     @RequestMapping(value = "/auth", method = RequestMethod.GET)
-    public String authPage(String path, ModelMap model) {
+    public String authPage(String path, String error, ModelMap model) {
         model.addAttribute("path", path);
-        return "auth";
-    }
-
-    @RequestMapping(value = "/auth", method = RequestMethod.POST)
-    public String authPage(String path, String login, String password,
-                                                        ModelMap model) {
-        String result;
-        if (this.logic.isCredential(login, password)) {
-            User operator = this.logic.findUserByLogin(login);
-            this.operator.setLogin(operator.getLogin());
-            this.operator.setName(operator.getName());
-            if (path == null) {
-                path = "index";
-            }
-            result = "redirect:" + path;
-        } else {
-            model.addAttribute("error", "Ошибка авторизации");
-            model.addAttribute("path", path);
-            result = null;
+        if (error != null) {
+            model.addAttribute("error", error);
         }
-        return result;
+        return "auth";
     }
 
     @RequestMapping(value = "/car", method = RequestMethod.GET)

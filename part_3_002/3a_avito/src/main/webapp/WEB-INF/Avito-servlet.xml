@@ -25,9 +25,10 @@
       class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
         <property name="defaultEncoding"><value>utf-8</value></property>
     </bean>
+<!-- Это был пример бина в рамках сессии
     <bean id="operator" class="e.User" scope="session">
         <aop:scoped-proxy/>
-    </bean>
+    </bean-->
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="org.postgresql.Driver"/>
         <property name="url" value="jdbc:postgresql:3a_avito"/>
@@ -48,4 +49,5 @@
         <property name="entityManagerFactory" ref="entityManagerFactory"/>
     </bean>
     <jpa:repositories base-package="e"/>
+    <import resource="spring-security-jdbc.xml"/>
 </beans>

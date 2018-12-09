@@ -1,12 +1,12 @@
 DROP TABLE IF EXISTS uzer CASCADE;
 CREATE TABLE uzer (
   login    CHAR(8) PRIMARY KEY,
-  password CHAR(8) NOT NULL,
+  password VARCHAR(16) NOT NULL,
   name     VARCHAR(16) NOT NULL
 );
-INSERT INTO uzer VALUES ('irkalii', 'irkalii', 'Иркалий');
-INSERT INTO uzer VALUES ('seller', 'seller', 'Селлер');
-INSERT INTO uzer VALUES ('princess', 'princess', 'Принцесса');
+INSERT INTO uzer VALUES ('irkalii', '{noop}irkalii', 'Иркалий');
+INSERT INTO uzer VALUES ('seller', '{noop}seller', 'Селлер');
+INSERT INTO uzer VALUES ('princess', '{noop}princess', 'Принцесса');
 
 DROP TABLE IF EXISTS mark CASCADE;
 CREATE TABLE mark (

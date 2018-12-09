@@ -76,7 +76,8 @@
 </nav>
 
 <div class="container">
-  <form class="form-horizontal" id="mainForm" name="mainForm" method="POST" enctype="multipart/form-data">
+  <form class="form-horizontal" id="mainForm" name="mainForm"
+               action="edit" method="POST" enctype="multipart/form-data">
     <c:if test="${!empty ad}">
       <input type="hidden" name="id" value="${ad.id}">
     </c:if>

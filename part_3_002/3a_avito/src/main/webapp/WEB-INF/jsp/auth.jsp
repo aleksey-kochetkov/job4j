@@ -10,11 +10,16 @@
     <title>Автомобили</title>
 </head>
 <body><div class="container-fluid">
-<c:if test="${!empty error}">
+<c:if test="${not empty error}">
     <div class="alert alert-danger">Ошибка авторизации</div>
 </c:if>
+<c:if test="${not empty SPRING_SECURITY_LAST_EXCEPTION}">
+      <div class="alert alert-danger">
+        <c:out value="${SPRING_SECURITY_LAST_EXCEPTION.message}"/>.
+      </div>
+</c:if>
 <h2>Авторизуйтесь</h2>
-<form class="form-horizontal" action="${pageContext.request.contextPath}/auth" method="post">
+<form class="form-horizontal" action="" method="POST">
     <input type="hidden" name="path" value="${path}">
     <div class="form-group">
         <label class="control-label col-sm-2" for="login">login</label>

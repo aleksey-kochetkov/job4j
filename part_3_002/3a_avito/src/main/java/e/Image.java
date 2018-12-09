@@ -1,5 +1,7 @@
 package e;
 
+import java.util.Arrays;
+
 public class Image {
     private int adId;
     private byte[] bytes;
@@ -25,5 +27,25 @@ public class Image {
 
     public void setBytes(byte[] bytes) {
         this.bytes = bytes;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this) {
+            return true;
+        }
+        if (!(o instanceof Image)) {
+            return false;
+        }
+        Image i = (Image) o;
+        return (i.adId == this.adId)
+                                   && Arrays.equals(i.bytes, this.bytes);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = this.adId;
+        result += 31 * result + Arrays.hashCode(this.bytes);
+        return result;
     }
 }

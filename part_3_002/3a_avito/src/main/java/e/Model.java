@@ -39,4 +39,30 @@ public class Model {
     public void setName(String name) {
         this.name = name;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this) {
+            return true;
+        }
+        if (!(o instanceof Model)) {
+            return false;
+        }
+        Model m = (Model) o;
+        return m.id == this.id
+           && (m.mark == null ? this.mark == null
+                                              : m.mark.equals(this.mark))
+           && (m.name == null ? this.name == null
+                                             : m.name.equals(this.name));
+    }
+
+    @Override
+    public int hashCode() {
+        int result = this.id;
+        result += 31 * result + (this.mark == null ? 0
+                                                 : this.mark.hashCode());
+        result += 31 * result + (this.name == null ? 0
+                                                 : this.name.hashCode());
+        return result;
+    }
 }

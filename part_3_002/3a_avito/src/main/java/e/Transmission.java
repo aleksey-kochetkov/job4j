@@ -26,4 +26,26 @@ public class Transmission {
     public void setDescript(String descript) {
         this.descript = descript;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this) {
+            return true;
+        }
+        if (!(o instanceof Transmission)) {
+            return false;
+        }
+        Transmission t = (Transmission) o;
+        return (t.id == this.id)
+            && (t.descript == null ? this.descript == null
+                                     : t.descript.equals(this.descript));
+    }
+
+    @Override
+    public int hashCode() {
+        int result = this.id;
+        result += 31 * result + (this.descript == null ? 0
+                                             : this.descript.hashCode());
+        return result;
+    }
 }

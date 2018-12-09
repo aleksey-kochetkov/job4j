@@ -5,6 +5,7 @@ import javax.persistence.Table;
 import javax.persistence.Id;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import java.util.Objects;
 
 public class User {
     private String login;
@@ -42,5 +43,32 @@ public class User {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof User)) {
+            return false;
+        }
+        User u = (User) o;
+        return (u.login == null ? this.login == null
+                                            : u.login.equals(this.login))
+            && (u.password == null ? this.password == null
+                                      : u.password.equals(this.password))
+            && (u.name == null ? this.name == null
+                                             : u.name.equals(this.name));
+    }
+
+    @Override
+    public int hashCode() {
+        int result = this.login == null ? 0 : this.login.hashCode();
+        result += 31 * result + (this.password == null ? 0
+                                             : this.password.hashCode());
+        result += 31 * result + (this.name == null ? 0
+                                                 : this.name.hashCode());
+        return result;
     }
 }

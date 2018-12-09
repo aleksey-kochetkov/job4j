@@ -26,4 +26,26 @@ public class Engine {
     public void setDescript(String descript) {
         this.descript = descript;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this) {
+            return true;
+        }
+        if (!(o instanceof Engine)) {
+            return false;
+        }
+        Engine e = (Engine) o;
+        return e.id == this.id
+           && (e.descript == null ? this.descript == null
+                                     : e.descript.equals(this.descript));
+    }
+
+    @Override
+    public int hashCode() {
+        int result = this.id;
+        result += 31 * result + (this.descript == null ? 0
+                                             : this.descript.hashCode());
+        return result;
+    }
 }

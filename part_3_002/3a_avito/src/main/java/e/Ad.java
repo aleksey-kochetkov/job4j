@@ -239,4 +239,51 @@ public class Ad {
     public String getFormattedCreateDt() {
         return F.format(new Date(this.createDt.getTime()));
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this) {
+            return true;
+        }
+        if (!(o instanceof Ad)) {
+            return false;
+        }
+        Ad a = (Ad) o;
+        return (a.id == this.id)
+            && (a.user == null ? this.user == null
+                                              : a.user.equals(this.user))
+            && (a.model == null ? this.model == null
+                                            : a.model.equals(this.model))
+            && (a.carBody == null ? this.carBody == null
+                                        : a.carBody.equals(this.carBody))
+            && (a.engine == null ? this.engine == null
+                                          : a.engine.equals(this.engine))
+            && (a.transmission == null ? this.transmission == null
+                              : a.transmission.equals(this.transmission))
+            && (a.createDt == null ? this.createDt == null
+                                      : a.createDt.equals(this.createDt))
+            && (a.closed == this.closed)
+            && (a.year == this.year)
+            && (a.km == this.km)
+            && (a.price == this.price)
+            && (a.image == null ? this.image == null
+                                           : a.image.equals(this.image));
+    }
+
+    @Override
+    public int hashCode() {
+        int result = this.id;
+        result += 31 * result + (this.user == null ? 0 : this.user.hashCode());
+        result += 31 * result + (this.model == null ? 0 : this.model.hashCode());
+        result += 31 * result + (this.carBody == null ? 0 : this.carBody.hashCode());
+        result += 31 * result + (this.engine == null ? 0 : this.engine.hashCode());
+        result += 31 * result + (this.transmission == null ? 0 : this.transmission.hashCode());
+        result += 31 * result + (this.createDt == null ? 0 : this.createDt.hashCode());
+        result += 31 * result + (this.closed ? 1 : 0);
+        result += 31 * result + this.year;
+        result += 31 * result + this.km;
+        result += 31 * result + this.price;
+        result += 31 * result + (this.image == null ? 0 : this.image.hashCode());
+        return result;
+    }
 }

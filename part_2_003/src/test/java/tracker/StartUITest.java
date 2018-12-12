@@ -4,13 +4,12 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertTrue;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.sql.SQLException;
 
 public class StartUITest {
     private final PrintStream outSave = System.out;
@@ -27,21 +26,21 @@ public class StartUITest {
     }
 
     @Test
-    public void whenUserAddItemThenTrackerHasNewItemWithSameName() {
-        try (Tracker tracker = new Tracker()) {
-            tracker.init();
-            tracker.deleteAll();
+    public void whenUserAddItemThenTrackerHasNewItemWithSameName() throws SQLException {
+        try (Tracker tracker = new Tracker(
+                   RollbackConnection.create(StartUI.getConnection()))) {
+            int previousSize = tracker.getAll().size();
             Input input = new StubInput(new String[]{"0", "test name", "desc", "6"});   //создаём StubInput с последовательностью действий
             new StartUI(input, tracker).init();     //   создаём StartUI и вызываем метод init()
-            assertThat(tracker.getAll().get(0).getName(), is("test name")); // проверяем, что нулевой элемент массива в трекере содержит имя, введённое при эмуляции.
+            assertThat(tracker.getAll().get(previousSize).getName(), is("test name")); // проверяем, что нулевой элемент массива в трекере содержит имя, введённое при эмуляции.
         }
     }
 
     @Test
-    public void whenUpdateThenTrackerHasUpdatedValue() {
+    public void whenUpdateThenTrackerHasUpdatedValue() throws SQLException {
         // создаём Tracker
-        try (Tracker tracker = new Tracker()) {
-            tracker.init();
+        try (Tracker tracker = new Tracker(
+                   RollbackConnection.create(StartUI.getConnection()))) {
             //Напрямую добавляем заявку
             Item item = tracker.add(new Item("One", "Description one"));
             //создаём StubInput с последовательностью действий
@@ -55,10 +54,10 @@ public class StartUITest {
     }
 
     @Test
-    public void whenDeleteThenTrackerHasOneItem() {
-        try (Tracker tracker = new Tracker()) {
-            tracker.init();
-            tracker.deleteAll();
+    public void whenDeleteThenTrackerHasOneItem() throws SQLException {
+        try (Tracker tracker = new Tracker(
+                RollbackConnection.create(StartUI.getConnection()))) {
+            int previousSize = tracker.getAll().size();
             Item one = new Item("One", "Description one");
             tracker.add(one);
             Item two = new Item("Two", "Description two");
@@ -66,61 +65,60 @@ public class StartUITest {
             Input input = new StubInput(new String[]{
                     "3", Integer.toString(one.getId()), "6"});
             new StartUI(input, tracker).init();
-            assertEquals(1, tracker.getAll().size());
+            assertEquals(previousSize + 1, tracker.getAll().size());
         }
     }
 
     @Test
-    public void whenShowAll() {
+    public void whenShowAll() throws SQLException {
         Input input = new StubInput(new String[] {"1", "6"});
-        try (Tracker tracker = new Tracker()) {
-            tracker.init();
-            tracker.deleteAll();
-            Item one = new Item("One", "Description one");
+        try (Tracker tracker = new Tracker(
+                   RollbackConnection.create(StartUI.getConnection()))) {
+            Item one = new Item("March", "Description one");
             tracker.add(one);
-            Item two = new Item("Two", "Description two");
+            Item two = new Item("April", "Description two");
             tracker.add(two);
             new StartUI(input, tracker).init();
-            StringBuilder expect = new StringBuilder("One Description one ").
+            StringBuilder expect = new StringBuilder("March Description one ").
                     append(one.getId()).append(System.lineSeparator()).
-                    append("Two Description two ").append(two.getId());
+                    append("April Description two ").append(two.getId());
             assertTrue(this.out.toString().contains(expect));
         }
     }
 
     @Test
-    public void whenFindById() {
-        try (Tracker tracker = new Tracker()) {
-            tracker.init();
-            Item one = new Item("One", "Description one");
+    public void whenFindById() throws SQLException {
+        try (Tracker tracker = new Tracker(
+                   RollbackConnection.create(StartUI.getConnection()))) {
+            Item one = new Item("May", "Description one");
             tracker.add(one);
-            Item two = new Item("Two", "Description two");
+            Item two = new Item("June", "Description two");
             tracker.add(two);
             Input input = new StubInput(new String[]{
                     "4", Integer.toString(one.getId()), "6"});
             new StartUI(input, tracker).init();
-            StringBuilder expect = new StringBuilder("One Description one ").
-                    append(one.getId());
+            StringBuilder expect = new StringBuilder("May Description one ")
+                                                    .append(one.getId());
             assertTrue(this.out.toString().contains(expect));
         }
     }
 
     @Test
-    public void whenFindByName() {
-        try (Tracker tracker = new Tracker()) {
-            tracker.init();
+    public void whenFindByName() throws SQLException {
+        try (Tracker tracker = new Tracker(
+                   RollbackConnection.create(StartUI.getConnection()))) {
             tracker.deleteAll();
-            Item one = new Item("One", "Description one");
+            Item one = new Item("July", "Description one");
             tracker.add(one);
             Item two = new Item("Two", "Description two");
             tracker.add(two);
-            Item three = new Item("One", "Description three");
+            Item three = new Item("July", "Description three");
             tracker.add(three);
-            Input input = new StubInput(new String[]{"5", "One", "6"});
+            Input input = new StubInput(new String[]{"5", "July", "6"});
             new StartUI(input, tracker).init();
-            StringBuilder expect = new StringBuilder("One Description one ").
-                    append(one.getId()).append(System.lineSeparator()).
-                    append("One Description three ").append(three.getId());
+            StringBuilder expect = new StringBuilder("July Description one ")
+                .append(one.getId()).append(System.lineSeparator())
+                .append("July Description three ").append(three.getId());
             assertTrue(this.out.toString().contains(expect));
         }
     }

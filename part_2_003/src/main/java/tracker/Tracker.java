@@ -21,57 +21,8 @@ public class Tracker implements AutoCloseable {
     private List<Item> items = new ArrayList<>();
     private Connection connection;
 
-    public void init() {
-        try (Scanner scanner =
-          new Scanner(this.getClass().getResourceAsStream("/db.conf"), "utf-8")) {
-            scanner.useDelimiter(";");
-            String url = scanner.next().trim();
-            String user = scanner.next().trim();
-            String password = scanner.next().trim();
-            if (!this.connect(url, user, password)) {
-                this.createDatabase(url, user, password);
-                this.connect(url, user, password);
-                this.executeDBSql(scanner);
-            }
-        }
-    }
-
-    private boolean connect(String url, String user, String password) {
-        boolean result = true;
-        try {
-            this.connection = DriverManager.getConnection(url, user, password);
-        } catch (SQLException exception) {
-            if ("3D000".equals(exception.getSQLState())) {
-                result = false;
-            } else {
-                throw new RuntimeException(exception);
-            }
-        }
-        return result;
-    }
-
-    private void createDatabase(String url, String user, String password) {
-        int index = url.lastIndexOf(':') + 1;
-        String urlPath = url.substring(0, index);
-        String database = url.substring(index);
-        try (Connection connection = DriverManager.getConnection(urlPath, user, password)) {
-            connection.createStatement().executeUpdate(
-                          String.format("CREATE DATABASE %s", database));
-        } catch (SQLException exception) {
-            throw new RuntimeException(exception);
-        }
-    }
-
-    private void executeDBSql(Scanner scanner) {
-        try (Statement statement = this.connection.createStatement()) {
-            this.connection.setAutoCommit(false);
-            while (scanner.hasNext()) {
-                statement.executeUpdate(scanner.next());
-            }
-            this.connection.setAutoCommit(true);
-        } catch (SQLException exception) {
-            throw new RuntimeException(exception);
-        }
+    public Tracker(Connection connection) {
+        this.connection = connection;
     }
 
     public Item add(Item item) {

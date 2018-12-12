@@ -4,29 +4,27 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static org.hamcrest.core.Is.is;
-
 import org.junit.Test;
-
 import java.util.Arrays;
 import java.util.List;
+import java.sql.SQLException;
 
 public class TrackerTest {
 
     @Test
-    public void whenAddNewItemThenTrackerHasSameItem() {
-        try (Tracker tracker = new Tracker()) {
-            tracker.init();
-            tracker.deleteAll();
-            Item item = new Item("One", "Description one");
+    public void whenAddNewItemThenTrackerHasSameItem() throws SQLException {
+        try (Tracker tracker = new Tracker(
+                RollbackConnection.create(StartUI.getConnection()))) {
+            Item item = new Item("Jan", "Description one");
             tracker.add(item);
-            assertThat(tracker.getAll().get(0), is(item));
+            assertThat(tracker.findByName("Jan").get(0), is(item));
         }
     }
 
     @Test
-    public void whenReplaceNameThenReturnNewName() {
-        try (Tracker tracker = new Tracker()) {
-            tracker.init();
+    public void whenReplaceNameThenReturnNewName() throws SQLException {
+        try (Tracker tracker = new Tracker(
+                   RollbackConnection.create(StartUI.getConnection()))) {
             Item oldItem = new Item("Old item", "Old description");
             tracker.add(oldItem);
             Item newItem = new Item("New item", "New description");
@@ -38,51 +36,50 @@ public class TrackerTest {
     }
 
     @Test
-    public void whenDeleteSingleThenEmpty() {
-        try (Tracker tracker = new Tracker()) {
-            tracker.init();
-            tracker.deleteAll();
+    public void whenDeleteSingleThenEmpty() throws SQLException {
+        try (Tracker tracker = new Tracker(
+                   RollbackConnection.create(StartUI.getConnection()))) {
+            int previousSize = tracker.getAll().size();
             Item item = new Item("Single", "Single description");
             tracker.add(item);
             tracker.delete(item.getId());
-            assertEquals(0, tracker.getAll().size());
+            assertEquals(previousSize, tracker.getAll().size());
         }
     }
 
     @Test
-    public void whenDeleteThenSecondBecomesFirst() {
-        try (Tracker tracker = new Tracker()) {
-            tracker.init();
-            tracker.deleteAll();
+    public void whenDeleteThenSecondBecomesFirst() throws SQLException {
+        try (Tracker tracker = new Tracker(
+                   RollbackConnection.create(StartUI.getConnection()))) {
             Item one = new Item("One", "One description");
+            int previousSize = tracker.getAll().size();
             tracker.add(one);
             Item two = new Item("Two", "Two description");
             tracker.add(two);
             tracker.delete(one.getId());
-            assertThat(tracker.getAll().get(0), is(two));
+            assertThat(tracker.getAll().get(previousSize), is(two));
         }
     }
 
     @Test
-    public void whenFindByNameThenTwoFound() {
-        try (Tracker tracker = new Tracker()) {
-            tracker.init();
-            tracker.deleteAll();
-            Item one = new Item("One", "One description");
+    public void whenFindByNameThenTwoFound() throws SQLException {
+        try (Tracker tracker = new Tracker(
+                   RollbackConnection.create(StartUI.getConnection()))) {
+            Item one = new Item("Feb", "One description");
             tracker.add(one);
             Item two = new Item("Two", "Two description");
             tracker.add(two);
-            Item another = new Item("One", "Another description");
+            Item another = new Item("Feb", "Another description");
             tracker.add(another);
             List<Item> expect = Arrays.asList(one, another);
-            assertThat(tracker.findByName("One"), is(expect));
+            assertThat(tracker.findByName("Feb"), is(expect));
         }
     }
 
     @Test
-    public void whenNotAddedAndGetAllThenEmpty() {
-        try (Tracker tracker = new Tracker()) {
-            tracker.init();
+    public void whenNotAddedAndGetAllThenEmpty() throws SQLException {
+        try (Tracker tracker = new Tracker(
+                   RollbackConnection.create(StartUI.getConnection()))) {
             tracker.deleteAll();
             assertEquals(0, tracker.getAll().size());
         }
@@ -90,8 +87,7 @@ public class TrackerTest {
 
     @Test
     public void whenNotAddedAndFindByIdThenNull() {
-        try (Tracker tracker = new Tracker()) {
-            tracker.init();
+        try (Tracker tracker = new Tracker(StartUI.getConnection())) {
             tracker.deleteAll();
             assertNull(tracker.findById(123));
         }

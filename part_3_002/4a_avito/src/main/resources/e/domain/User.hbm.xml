@@ -1,0 +1,9 @@
+<hibernate-mapping>
+    <class name="e.domain.User" table="uzer">
+        <id name="login" column="login">
+            <generator class="assigned"/>
+        </id>
+        <property name="password" column="password"/>
+        <property name="name" column="name"/>
+    </class>
+</hibernate-mapping>

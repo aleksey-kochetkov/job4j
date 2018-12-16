@@ -1,0 +1,8 @@
+<hibernate-mapping>
+    <class name="e.domain.Transmission" table="transmission">
+        <id name="id" column="id">
+            <generator class="identity"/>
+        </id>
+        <property name="descript" column="descript"/>
+    </class>
+</hibernate-mapping>

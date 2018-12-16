@@ -1,0 +1,17 @@
+<hibernate-mapping>
+    <class name="e.domain.Ad" table="ad">
+        <id name="id" column="id">
+            <generator class="identity"/>
+        </id>
+        <many-to-one name="user" column="login" class="e.domain.User" lazy="false"/>
+        <many-to-one name="model" column="model_id" class="e.domain.Model" lazy="false"/>
+        <many-to-one name="carBody" column="car_body_id" class="e.domain.CarBody" lazy="false"/>
+        <many-to-one name="engine" column="engine_id" class="e.domain.Engine" lazy="false"/>
+        <many-to-one name="transmission" column="transmission_id" class="e.domain.Transmission" lazy="false"/>
+        <property name="createDt" column="create_dt" insert="false" update="false"/>
+        <property name="closed" column="closed"/>
+        <property name="year" column="year"/>
+        <property name="km" column="km"/>
+        <property name="price" column="price"/>
+    </class>
+</hibernate-mapping>

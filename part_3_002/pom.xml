@@ -14,6 +14,7 @@
         <module>1d_ioc</module>
         <module>2a_avito</module>
 		<module>3a_avito</module>
+		<module>4a_avito</module>
     </modules>
     <dependencies>
         <!-- https://mvnrepository.com/artifact/org.springframework/spring-core -->

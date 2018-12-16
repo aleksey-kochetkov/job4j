@@ -1,35 +1,35 @@
-package e;
+package e.web;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.ui.ModelMap;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.ui.ModelMap;
+import java.security.Principal;
 import java.util.Optional;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
-import java.util.HashMap;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.IOException;
-import java.security.Principal;
+import e.Entry;
+import e.domain.User;
+import e.domain.Model;
+import e.domain.Ad;
+import e.service.BusinessLogic;
 
 @Controller
 public class AvitoController {
     private final BusinessLogic logic;
-// Это был пример бина в рамках сессии    @Autowired
-//    private User operator;
 
     public AvitoController(BusinessLogic logic) {
         this.logic = logic;
     }
 
-    @RequestMapping(value = "/index", method = RequestMethod.GET)
+    @RequestMapping(value = {"/", "/index"}, method = RequestMethod.GET)
     public String indexPage(String mark, String period, String notClosed,
                                    Principal principal, ModelMap model) {
         if (principal != null) {
@@ -44,11 +44,6 @@ public class AvitoController {
         model.addAttribute("rows",
                           this.logic.findAds(markId, period, notClosed));
         return "index";
-    }
-
-    private Optional<Integer> optionalOf(String value) {
-        return value == null || value.length() == 0 ? Optional.empty()
-                                   : Optional.of(Integer.valueOf(value));
     }
 
     @RequestMapping(value = {"/edit", "/create"}, method = RequestMethod.GET)
@@ -69,7 +64,10 @@ public class AvitoController {
             this.addAttributeModels(ad, model);
             this.checkAttributeView(ad, principal, model);
         }
-        model.addAttribute("operator", this.logic.findUserByLogin(principal.getName()));
+        if (principal != null) {
+            model.addAttribute("operator",
+                        this.logic.findUserByLogin(principal.getName()));
+        }
         model.addAttribute("marks", this.logic.findAllMarks());
         model.addAttribute("carBodies", this.logic.findAllCarBodies());
         model.addAttribute("engines", this.logic.findAllEngines());
@@ -134,6 +132,10 @@ public class AvitoController {
         return "auth";
     }
 
+    private Optional<Integer> optionalOf(String value) {
+        return value == null || value.length() == 0 ? Optional.empty()
+                                   : Optional.of(Integer.valueOf(value));
+    }
     @RequestMapping(value = "/car", method = RequestMethod.GET)
     @ResponseBody
     public byte[] imageResponse(String id, String name) throws IOException {

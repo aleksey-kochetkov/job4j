@@ -8,6 +8,12 @@ public class Model {
     public Model() {
     }
 
+    public Model(int id, Mark mark, String name) {
+        this.id = id;
+        this.mark = mark;
+        this.name = name;
+    }
+
     public Model(Mark mark) {
         this.mark = mark;
     }
@@ -59,9 +65,9 @@ public class Model {
     @Override
     public int hashCode() {
         int result = this.id;
-        result += 31 * result + (this.mark == null ? 0
+        result = 31 * result + (this.mark == null ? 0
                                                  : this.mark.hashCode());
-        result += 31 * result + (this.name == null ? 0
+        result = 31 * result + (this.name == null ? 0
                                                  : this.name.hashCode());
         return result;
     }

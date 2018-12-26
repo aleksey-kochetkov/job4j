@@ -43,7 +43,7 @@ public class Mark {
     @Override
     public int hashCode() {
         int result = this.id;
-        result += 31 * result + (this.name == null ? 0
+        result = 31 * result + (this.name == null ? 0
                                                  : this.name.hashCode());
         return result;
     }

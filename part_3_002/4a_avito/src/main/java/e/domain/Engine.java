@@ -44,7 +44,7 @@ public class Engine {
     @Override
     public int hashCode() {
         int result = this.id;
-        result += 31 * result + (this.descript == null ? 0
+        result = 31 * result + (this.descript == null ? 0
                                              : this.descript.hashCode());
         return result;
     }

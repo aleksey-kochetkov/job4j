@@ -45,7 +45,7 @@ public class Image {
     @Override
     public int hashCode() {
         int result = this.adId;
-        result += 31 * result + Arrays.hashCode(this.bytes);
+        result = 31 * result + Arrays.hashCode(this.bytes);
         return result;
     }
 }

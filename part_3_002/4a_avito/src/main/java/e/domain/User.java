@@ -58,9 +58,9 @@ public class User {
     @Override
     public int hashCode() {
         int result = this.login == null ? 0 : this.login.hashCode();
-        result += 31 * result + (this.password == null ? 0
+        result = 31 * result + (this.password == null ? 0
                                              : this.password.hashCode());
-        result += 31 * result + (this.name == null ? 0
+        result = 31 * result + (this.name == null ? 0
                                                  : this.name.hashCode());
         return result;
     }

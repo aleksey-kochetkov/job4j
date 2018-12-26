@@ -252,16 +252,16 @@ public class Ad {
     @Override
     public int hashCode() {
         int result = this.id;
-        result += 31 * result + (this.user == null ? 0 : this.user.hashCode());
-        result += 31 * result + (this.model == null ? 0 : this.model.hashCode());
-        result += 31 * result + (this.carBody == null ? 0 : this.carBody.hashCode());
-        result += 31 * result + (this.engine == null ? 0 : this.engine.hashCode());
-        result += 31 * result + (this.transmission == null ? 0 : this.transmission.hashCode());
-        result += 31 * result + (this.createDt == null ? 0 : this.createDt.hashCode());
-        result += 31 * result + (this.closed ? 1 : 0);
-        result += 31 * result + this.year;
-        result += 31 * result + this.km;
-        result += 31 * result + this.price;
+        result = 31 * result + (this.user == null ? 0 : this.user.hashCode());
+        result = 31 * result + (this.model == null ? 0 : this.model.hashCode());
+        result = 31 * result + (this.carBody == null ? 0 : this.carBody.hashCode());
+        result = 31 * result + (this.engine == null ? 0 : this.engine.hashCode());
+        result = 31 * result + (this.transmission == null ? 0 : this.transmission.hashCode());
+        result = 31 * result + (this.createDt == null ? 0 : this.createDt.hashCode());
+        result = 31 * result + (this.closed ? 1 : 0);
+        result = 31 * result + this.year;
+        result = 31 * result + this.km;
+        result = 31 * result + this.price;
         return result;
     }
 }

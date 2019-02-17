@@ -1,0 +1,9 @@
+<project>
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>1num</artifactId>
+    <parent>
+        <groupId>ru.job4j</groupId>
+        <artifactId>part_2_002io</artifactId>
+        <version>2.0</version>
+    </parent>
+</project>

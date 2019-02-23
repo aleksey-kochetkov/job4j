@@ -10,5 +10,6 @@
     <modules>
         <module>1num</module>
         <module>2abuse</module>
+        <module>3fs</module>
     </modules>
 </project>
